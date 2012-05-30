@@ -1,0 +1,176 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-delegate-proxy">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Allows the user to delegate her proxy credentials, that can be used later for her job submissions.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <group choice="req">
+                <arg choice="plain"><option>-e <![CDATA[<host>[:<port>]]]></option></arg>
+                <arg choice="plain"><option>--endpoint <![CDATA[<host>[:<port>]]]></option></arg>
+            </group>
+            <arg choice="req"><option><![CDATA[<delegationID>]]></option></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para><command>&dhcommand;</command> is  the  command  to  delegate  proxy credentials, that can be used later in job submission operations (see option --delegationId of the glite-ce-job-submit command).
+In this way the user can delegate her proxy credentials, and then perform multiple submissions relying on the same delegated  credentials, therefore speeding up the submission process (delegating a proxy can take some time).</para>
+
+        <para>&dhcommand; requires as mandatory inputs:
+            <itemizedlist>
+                <listitem>
+                    <para>the endpoint (that is the full hostname and the port number) of the considered CREAM CE service, specified using the <option>--endpoint</option> option;</para>
+                </listitem>
+                <listitem>
+                    <para>a string, chosen by the end user, specifying the id of the delegated proxy. This id will then have to be specified in the following submission operations (with the option <option>--delegationId</option> of the <command>glite-ce-job-submit</command> command).</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+
+        <para>The proxy file considered by this command (that is the proxy to delegate to the remote CREAM service) is:
+            <itemizedlist>
+                <listitem>
+                    <para>the one pointed by the environment variable <envar>X509_USER_PROXY</envar>;</para>
+                </listitem>
+                <listitem>
+                    <para>the file <filename><![CDATA[/tmp/x509up_u<uid>]]></filename>, if the environment variable <envar>X509_USER_PROXY</envar> is undefined.</para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        
+        <para>If a delegation with the same id and belonging to the same user already exists in that CREAM CE, an error message is returned.</para>
+        <para>The <option>--endpoint</option> directive must be used to target the operation to a specific CREAM CE. The format to be used is the following: <![CDATA[<fullhostname>[:<portnumber>]]]></para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--endpoint <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <term><option>-e <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <listitem>
+                    <para>Specifies the hostname and port number of the service where the user credentials have to be delegated.
+                    If the port is not specified, the port to  be  used is the one specified in the CREAM UI configuration file.
+                    Specifying the <option>--endpoint</option> option is mandatory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a status value of 0 (zero) upon success and >0 (greater than zero) upon failure.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        <para><command>glite-ce-delegate-proxy -e ce1.pd.infn.it:8443 myproxyid1</command></para>
+        <para><screen>
+Proxy with delegation id [myproxyid1] succesfully delegated to endpoint [https://ce1.pd.infn.it:8443//ce-cream/services/CREAMDelegation]
+        </screen></para>
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-job-submit</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+

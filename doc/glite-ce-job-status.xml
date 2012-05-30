@@ -1,0 +1,368 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-job-status">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Displays information concerning jobs submitted to CREAM based CEs.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain" rep="repeat"><replaceable><![CDATA[<jobID>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para><command>&dhcommand;</command> is the command for getting information concerning jobs submitted to CREAM based Computing Elements.</para>
+        
+        <para><command>&dhcommand;</command> can monitor one or more jobs: the jobs to be checked are identified by their job identifiers (job Ids returned by <command>glite-ce-job-submit</command>)
+        provided as arguments to the command and separated by a blank space.</para>
+
+        <para>It has to be remarked that a job can be monitored only by his/her owner (i.e. the user who submitted it).
+        Only the <emphasis>super-users</emphasis> can check the status of jobs submitted by other persons.</para>
+
+        <para>If the <option>--all</option> option is specified, information about all the jobs submitted to the interested CREAM CE
+        (whose endpoint must be specified with the <option>--endpoint</option> option, which is mandatory in this case)  owned by the user issuing the command is returned.
+        When the command is launched with the <option>--all</option> option, neither can a jobId be specified nor can the <option>--input</option> option be used.</para>
+
+        <para>The <option>--input</option> option permits to specify a file (file_name) that contains the jobIds to monitor.
+        This file must be the one generated with the <option>--output</option> option of the <command>glite-ce-job-submit</command> or <command>glite-ce-job-list</command> commands.
+        If the file_name does not represent an absolute path, it will be searched in the  current  working  directory.</para>
+
+        <para>When a <command>&dhcommand;</command> request is issued, the host name and the port number to be used to contact the CREAM service(s) are retrieved from the specified
+        jobIds (which encompass this information) unless the <option>--endpoint</option> option is used.
+        As stated before, the <option>--endpoint</option> option is mandatory if the <option>--all</option> option is used.</para>
+
+        <para>The <option>--level</option> option allows setting the detail level of the returned information.
+        This option can be specified with three values: 0, 1 and 2. The default level of verbosity  
+        (the  one  considered  if  this option is not used and if the attribute STATUS_VERBOSITY_LEVEL hasn't been specified in the CREAM CLI conf file) is 0.
+        Please note that specifying 0 as verbosity level means calling on the CREAM service a faster operation than when using 1 or 2 as level.</para>
+
+        <para>Hereafter are listed the information displayed according to the verbosity level:</para>
+        
+        <para>Verbosity level equal 0:
+            <itemizedlist>
+                <listitem><para>JobID: the CREAM job unique identifier</para></listitem>
+                <listitem><para>Status: the job current status</para></listitem>
+                <listitem><para>ExitCode: the Unix exit code - if applicable</para></listitem>
+                <listitem><para>FailureReason: the failure reason (for failed and aborted jobs)</para></listitem>
+                <listitem><para>Description: a description, used for example to explain why a job has been killed by CREAM</para></listitem>
+            </itemizedlist>
+        </para>
+        
+        <para>Verbosity level equal 1:
+            <itemizedlist>
+                <listitem><para>JobID: the CREAM job unique identifier</para></listitem>
+                <listitem><para>GridJobID: the Grid (WMS) job unique identifier, for jobs submitted to CREAM via the WMS</para></listitem>
+                <listitem><para>Current Status: the job current status</para></listitem>
+                <listitem><para>ExitCode: the Unix exit code - if applicable</para></listitem>
+                <listitem><para>FailureReason: the failure reason (for failed and aborted jobs)</para></listitem>
+                <listitem><para>Description: a description, used for example to explain why a job has been killed by CREAM</para></listitem>
+                <listitem><para>Job status changes: the status changes (along with their timestamps) occured so far for the considered job</para></listitem>
+                <listitem><para>Issued Commands: the commands (all but the status/list operations) and the relevant results issued on this job</para></listitem>
+            </itemizedlist>
+        </para>
+        
+        <para>With a verbosity level equal 2, some additional information fields are added:
+            <itemizedlist>
+                <listitem><para>WorkerNode: the worker node where the job is being/was executed</para></listitem>
+                <listitem><para>LocalUser: the user name on the CE mapped to the considered Grid user</para></listitem>
+                <listitem><para>Deleg Proxy Id: the id of the delegated user proxy</para></listitem>
+                <listitem><para>DelegProxyInfo: information about the user proxy used for this job</para></listitem>
+                <listitem><para>Lease ID: the id of the delegation (if the lease mechanism has been used)</para></listitem>
+                <listitem><para>Lease Time: the lease expiration time (if the lease mechannism has been used)</para></listitem>
+                <listitem><para>CREAM ISB URI: the URI of the CREAM directory for the InputSandbox</para></listitem>
+                <listitem><para>CREAM OSB URI: the URI of the CREAM directory for the OutputSandbox</para></listitem>
+                <listitem><para>JDL: the job JDL</para></listitem>
+                <listitem><para>Issued Commands: the same information as for verbosity level 1 plus the timestamps when the commands have been processed and completed</para></listitem>
+            </itemizedlist>
+        </para>
+
+        <para>If the user issuing the <command>&dhcommand;</command> is a <emphasis>superuser</emphasis> of that CREAM CE, 
+        also the following information is printed specifying <quote>2</quote> as verbosity level:
+            <itemizedlist>
+                <listitem><para>LRMS Abs JobId: the id of the job wrt the LRMS Abstraction Layer
+                (i.e. the BLAH job id, since BLAH us used as middleware component to interact with the  underlying resource management system)</para></listitem>
+                <listitem><para>LRMS JobId: the id of the job in the LRMS (i.e. the PBS id /the LSF id / ...)</para></listitem>
+                <listitem><para>Working Dir: the directory used by CREAM to store information about this job.
+                Please note that this is not the job working directory on the worker node</para></listitem>
+            </itemizedlist>
+        </para>
+        
+        <para>It is possible to specify filters on the jobs to be considered.
+        A first type of filter is on the job status: with the <option>--status</option> option it is possible to specify a list of possible job states:
+        only the jobs being in one of the listed status will be considered</para>
+        
+        <para>Another possible filter that can be considered is on the submission time:
+        it is possible to select, with the <option>--from</option> and/or <option>--to</option> option  a  temporal interval:
+        only jobs submitted in this time range will be considered.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--all</option></term>
+                <term><option>-a</option></term>
+                <listitem>
+                    <para>Displays information about all known jobs in the specified (with the <option>--endpoint</option> option, which is mandatory in this case) CREAM CE, owned by the user issuing the command.
+                    This option can't be used either if one or more jobIds have been specified or if the <option>--input</option> has been specified.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--endpoint <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <term><option>-e <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <listitem>
+                    <para>Selects the endpoint of the CREAM CE to send the status request to. 
+                    If this option is not specified, the endpoint will be extracted from the JobID strings.
+                    The endpoint must have the format <![CDATA[<host>:<port>]]> or <![CDATA[<host>]]>.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--from <replaceable class="parameter"><![CDATA[<date>]]></replaceable></option></term>
+                <term><option>-f <replaceable class="parameter"><![CDATA[<date>]]></replaceable></option></term>
+                <listitem>
+                    <para>Specifies  a filter on job submission time: only jobs submitted after the specified date will be considered.
+                    <![CDATA[<date>]]>, which must be specified wrt the local timezone, must have the format <emphasis><quote>YYYY-MM-DD HH:mm:ss</quote></emphasis> where:
+                    <itemizedlist>
+                        <listitem><para><emphasis>YYYY</emphasis> is the year as a decimal number including the century</para></listitem>
+                        <listitem><para><emphasis>MM</emphasis> is the month (1-12)</para></listitem>
+                        <listitem><para><emphasis>DD</emphasis> is the day of month (1-31)</para></listitem>
+                        <listitem><para><emphasis>HH</emphasis>, <emphasis>mm</emphasis>, <emphasis>ss</emphasis>
+                                        represent respectively the hour (0-23), the minutes (0-59) and the seconds (0-59)</para></listitem>
+                    </itemizedlist></para>
+                </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+                <term><option>--to <replaceable class="parameter"><![CDATA[<date>]]></replaceable></option></term>
+                <term><option>-t <replaceable class="parameter"><![CDATA[<date>]]></replaceable></option></term>
+                <listitem>
+                    <para>Specifies  a filter on job submission time: only jobs submitted before the specified date will be considered.
+                    <![CDATA[<date>]]>, which must be specified wrt the local timezone, must have the format <emphasis><quote>YYYY-MM-DD HH:mm:ss</quote></emphasis> where:
+                    <itemizedlist>
+                        <listitem><para><emphasis>YYYY</emphasis> is the year as a decimal number including the century</para></listitem>
+                        <listitem><para><emphasis>MM</emphasis> is the month (1-12)</para></listitem>
+                        <listitem><para><emphasis>DD</emphasis> is the day of month (1-31)</para></listitem>
+                        <listitem><para><emphasis>HH</emphasis>, <emphasis>mm</emphasis>, <emphasis>ss</emphasis>
+                                        represent respectively the hour (0-23), the minutes (0-59) and the seconds (0-59)</para></listitem>
+                    </itemizedlist></para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--input <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-i <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Displays information about the jobs whose Ids are contained in the file file_name.
+                    This option can't be used if the <option>--all</option> option has been specified as well.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--level <replaceable class="parameter">verb_level</replaceable></option></term>
+                <term><option>-L <replaceable class="parameter">verb_level</replaceable></option></term>
+                <listitem>
+                    <para>Sets the detail level of information about the job displayed to the user.
+                    Possible values for verb_level are 0,1 and 2. Please note that specifying 0 as verbosity level means calling on the CREAM service a faster operation than when using 1 or 2 as level.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--noint</option></term>
+                <term><option>-N</option></term>
+                <listitem>
+                    <para>If this option is specified every interactive question to the user is skipped, and default values (yes; all: consider all jobs of the given list) will be considered.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--nomsg</option></term>
+                <term><option>-n</option></term>
+                <listitem>
+                    <para>This option makes the command print on the standard output only the result of the operation (or error messages in case of failure). Therefore any warning or info message is suppressed if this option is used.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--status <replaceable class="parameter"><![CDATA[<status>]]></replaceable>
+                    <arg choice="plain" rep="repeat"><replaceable class="parameter"><![CDATA[:<status>]]></replaceable></arg></option></term>
+                <term><option>-s <replaceable class="parameter"><![CDATA[<status>]]></replaceable>
+                    <arg choice="plain" rep="repeat"><replaceable class="parameter"><![CDATA[:<status>]]></replaceable></arg></option></term>
+                <listitem>
+                    <para>Specifies a filter on job status: only jobs being in one of the listed states will be considered;
+                    all jobs that are not in one of the specified states will be filtered out.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+            
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a value of 0 if the status of all the specified jobs is retrieved correctly, >0 if errors occurred.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        
+        <para><command>glite-ce-job-status -L 1 https://cream-02.pd.infn.it:8443/CREAM955790315</command></para>
+        <para>displays the following lines:</para>
+        <para><screen>
+******  JobID=[https://cream-02.pd.infn.it:8443/CREAM955790315]
+
+        Current Status = [REALLY-RUNNING]
+
+        Grid JobID     = [N/A]
+
+        Job status changes:
+        -------------------
+
+        Status         = [REGISTERED] - [Fri 21 Dec 2007 17:49:38] (1198255778)
+
+        Status         = [PENDING] - [Fri 21 Dec 2007 17:49:38] (1198255778)
+
+        Status         = [IDLE] - [Fri 21 Dec 2007 17:49:41] (1198255781)
+
+        Status         = [RUNNING] - [Fri 21 Dec 2007 17:49:51] (1198255791)
+
+        Status         = [REALLY-RUNNING] - [Fri 21 Dec 2007 17:50:04] (1198255804)
+
+        Issued Commands:
+        -------------------
+
+        *** Command Name              = [JOB_REGISTER]
+
+            Command Category          = [JOB_MANAGEMENT]
+
+            Command Status            = [SUCCESSFULL]
+
+        *** Command Name              = [JOB_START]
+
+            Command Category          = [JOB_MANAGEMENT]
+
+            Command Status            = [SUCCESSFULL]
+        </screen></para>
+        
+        <para><command>glite-ce-job-status --endpoint grid005.pd.infn.it:8443 --all --status DONE-OK:DONE-FAILED --from '2005-07-13 10:00:00'</command></para>
+        <para>Status information of all jobs belonging to the user who issued the command, 
+        submitted to the specified (with the <option>--endpoint</option> option) CREAM CE after the specified date and time, 
+        and being in DONE-OK or in DONE-FAILED status, will be printed.</para>
+        
+        <para><command>glite-ce-job-status https://cream-03.pd.infn.it:8443/CREAM530773588</command></para>
+        <para>shows a job that has been killed by CREAM because the lease time expired:</para>
+        <para><screen>
+******  JobID=[https://cream-03.pd.infn.it:8443/CREAM530773588]
+        Status        = [CANCELLED]
+        ExitCode      = []
+        Description   = [Job cancelled by Lease Manager! (try 1/3)!]
+        </screen></para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-job-submit</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-job-list</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+

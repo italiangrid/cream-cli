@@ -1,0 +1,169 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-service-info">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Returns information about the CREAM service (version, status, etc.)</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain"><replaceable><![CDATA[<host>[:<port>]]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para><command>&dhcommand;</command> is the command used to get information about the CREAM service.
+        Information provided by the command includes the interface version, the service version, the status of the CREAM service.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--level <replaceable class="parameter">verb_level</replaceable></option></term>
+                <term><option>-L <replaceable class="parameter">verb_level</replaceable></option></term>
+                <listitem>
+                    <para>Sets the detail level of information. Possible values for verb_level are 1 and 2.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+            
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a status value of 0 (zero) upon success, and >0 (greater than zero) upon failure.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        
+        <para><command>glite-ce-service-info cream-13.pd.infn.it:8443</command></para>
+        <para><screen>
+Interface Version  = [2.1]
+
+Service Version    = [1.12]
+
+Description        = [CREAM 2]
+
+Started at         = [Tue Nov 10 14:42:12 2009]
+
+Submission enabled = [YES]
+
+Status             = [RUNNING]
+
+Service Property   = [SUBMISSION_THRESHOLD_MESSAGE]->[Threshold for Load Average(1 min): 10 => Detected value for Load Average(1 min):  0.03
+
+Threshold for Load Average(5 min): 10 => Detected value for Load Average(5 min):  0.03
+
+Threshold for Load Average(15 min): 10 => Detected value for Load Average(15 min):  0.00
+
+Threshold for Memory Usage: 95 => Detected value for Memory Usage: 57.41%
+
+Threshold for Swap Usage: 95 => Detected value for Swap Usage: 2.02%
+
+Threshold for Free FD: 500 => Detected value for Free FD: 204500
+
+Threshold for tomcat FD: 800 => Detected value for Tomcat FD: 107
+
+Threshold for FTP Connection: 30 => Detected value for FTP Connection: 1
+
+Threshold for Number of active jobs: -1 => Detected value for Number of active jobs: 0
+
+Threshold for Number of pending jobs: 40 => Detected value for Number of pending jobs: 0
+
+Threshold for Number of pending commands: -1 => Detected value for Number of pending commands: 0
+        </screen></para>
+        
+    </refsect1>
+
+</refentry>
+

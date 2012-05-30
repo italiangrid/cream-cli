@@ -1,0 +1,237 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-job-purge">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Cleans one or more jobs from CREAM based CEs. After this operation the purged jobs can't be managed anymore.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain" rep="repeat"><replaceable><![CDATA[<jobID>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        
+        <para>The command <command>&dhcommand;</command> purges jobs from CREAM based CEs, i.e. any reference to these jobs is cancelled.
+        Therefore after this operation it is not possible anymore to monitor (e.g. with the glite-ce-job-status command) or in some other way <quote>manage</quote> these jobs.</para>
+        
+        <para><command>&dhcommand;</command> can purge one or more jobs: the jobs to be removed are identified by their job identifiers
+        (job Ids returned by the  glite-ce-job-submit  command) provided as arguments to the command and separated by a blank space.</para>
+        
+        <para>Before actually purging the considered jobs, the user is asked for confirmation.</para>
+        
+        <para>It has to be remarked that a job can be purged only by his/her owner (i.e. the user who submitted it).
+        Only the <emphasis>super-users</emphasis> can purge jobs submitted by other persons.</para>
+                
+        <para>Job states for which the purge is allowed are:
+            <itemizedlist>
+                <listitem><para>REGISTERED</para></listitem>
+                <listitem><para>DONE-OK</para></listitem>
+                <listitem><para>DONE-FAILED</para></listitem>
+                <listitem><para>ABORTED</para></listitem>
+                <listitem><para>CANCELLED</para></listitem>
+            </itemizedlist>
+        </para>
+        
+        <para>For all the other job states the purge request will result in a failure.
+        An error message is of course printed also if the specified jobId doesn't exist.</para>
+        
+        <para>If the <option>--all</option> option is specified, all the jobs submitted to the interested CREAM CE (whose endpoint must be specified with the <option>--endpoint</option> option),
+        owned  by  the user issuing the command, are purged.
+        When the command is launched with the <option>--all</option> option, neither can a jobId be specified nor can the <option>--input</option> option be used.</para>
+        
+        <para>The <option>--input</option> option permits to specify a file (file_name) that contains the jobIds to be removed.
+        This file must be the one generated with the --output option of the <command>glite-ce-job-submit</command> or <command>glite-ce-job-list</command> commands.
+        If the file file_name does not represent an absolute path, the file will be searched in the current  working directory.</para>
+        
+        <para>When a <command>&dhcommand;</command> request is issued, the host name and the port number to be used to contact the CREAM service(s) are retrieved from the specified jobIds
+        (which encompass this information) unless the <option>--endpoint</option> option is used.
+        As stated before, the <option>--endpoint</option> option is mandatory if the <option>--all</option> option is used.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--all</option></term>
+                <term><option>-a</option></term>
+                <listitem>
+                    <para>Purges all known jobs in the specified (with the <option>--endpoint</option> option, which is mandatory in this case) CREAM CE, owned by the user issuing the command.
+                    This option can't be used either if one or more jobIds have been specified or if the <option>--input</option> option has been specified.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--endpoint <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <term><option>-e <replaceable class="parameter"><![CDATA[<host>[:<port>]]]></replaceable></option></term>
+                <listitem>
+                    <para>Selects  the endpoint of the CREAM CE to send the purge request to.
+                    If the port is not specified, the port to be used is the one specified in the CREAM UI configuration file.
+                    If this option is not specified, the endpoint  will  be  extracted  from  the  JobID  strings.
+                    The  endpoint  must  have  the  format<![CDATA[<host>:<port>]]> or <![CDATA[<host>]]>.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--input <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-i <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Purges jobs whose Ids are contained in the file file_name.
+                    This option can't be used if the <option>--all</option> option has been specified as well.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--noint</option></term>
+                <term><option>-N</option></term>
+                <listitem>
+                    <para>If this option is specified every interactive question to the user is skipped, and default values (yes; all: consider all jobs of the given list) will be considered.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--nomsg</option></term>
+                <term><option>-n</option></term>
+                <listitem>
+                    <para>This option makes the command print on the standard output only the result of the operation (or error messages in case of failure). Therefore any warning or info message is suppressed if this option is used.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+            
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a status value of 0 (zero) upon success and >0 (greater than zero) upon failure.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        
+        <para><command>glite-ce-job-purge --input joblist.txt</command></para>
+        <para>where joblist.txt is a file containing 2 jobIds, displays the following confirmation message:</para>
+        <para><screen>
+0. https://cream-ce-01.pd.infn.it:8443/CREAM116jbs5b9
+
+1. https://cream-ce-01.pd.infn.it:8443/CREAM116jbi4o0
+
+a. Purge all jobs
+
+q. Quit
+
+Your choice ? (multiple choices separated by ',') a
+
+Are you sure you want to purge specified job(s) [y/n]: y  
+        </screen></para>
+
+        <para><command>glite-ce-job-purge --endpoint grid005.pd.infn.it:8443 --all --noint</command></para>
+        <para>purges all jobs, on the specified CREAM CE, owned by the user issuing the command.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-job-submit</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-job-list</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+

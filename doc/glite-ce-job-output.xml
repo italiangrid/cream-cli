@@ -1,0 +1,193 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-job-output">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Retrieves the output sandbox files of one or more CREAM jobs.</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="plain" rep="repeat"><replaceable><![CDATA[<jobID>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para><command>&dhcommand;</command> retrieves the output sandbox (OSB) files of CREAM jobs from CREAM CEs, in the scenario where the user asked to save these files
+        in the CREAM CE (i.e. specifying outputsandboxbasedesturi="gsiftp://localhost"; in the JDL).</para>
+        
+        <para><command>&dhcommand;</command> can be used for one or more jobs: the jobs are identified by their job identifiers
+        (job Ids returned by the glite-ce-job-submit command) provided as arguments to the command and separated by a blank space.</para>
+        
+        <para>The <option>--input</option> option permits to specify a file (file_name) that contains the jobIds to be considered.
+        This file must be the one generated with the <option>--output</option> option of the <command>glite-ce-job-submit</command> or <command>glite-ce-job-list</command> commands. 
+        If the file file_name does not represent an absolute path the file will be  searched  in  the  current working directory.</para>
+        
+        <para>The OSB files of a job are retrieved and saved in a directory which is by default created in the current working directory (unless the <option>--dir</option> option is used).</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--dir <replaceable class="parameter">directory_name</replaceable></option></term>
+                <term><option>-D <replaceable class="parameter">directory_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the parent directory where to create the job directory where the OSB files for that job will be saved.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--num-streams <replaceable class="parameter">number</replaceable></option></term>
+                <term><option>-s <replaceable class="parameter">number</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the number of parallel streams to be used in the gridftp file transfer used in the OSB retrieval.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--input <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-i <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Retrieves the OSB files of jobs whose Ids are contained in the file file_name.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--noint</option></term>
+                <term><option>-N</option></term>
+                <listitem>
+                    <para>If this option is specified every interactive question to the user is skipped, and default values (yes; all: consider all jobs of the given list) will be considered.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--nomsg</option></term>
+                <term><option>-n</option></term>
+                <listitem>
+                    <para>This option makes the command print on the standard output only the result of the operation (or error messages in case of failure). Therefore any warning or info message is suppressed if this option is used.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+            
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a status value of 0 (zero) upon success and >0 (greater than zero) upon failure.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        
+        <para><command>glite-ce-job-output https://cream-18.pd.infn.it:8443/CREAM753062965</command></para>
+        
+        <para><command>glite-ce-job-output --input joblist.txt</command></para>
+        <para>where joblist.txt is a file containing jobIds</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-job-submit</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>,
+            <citerefentry>
+                <refentrytitle>glite-ce-job-list</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+

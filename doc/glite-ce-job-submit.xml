@@ -1,0 +1,241 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+    <!ENTITY dhtitle "User Manuals">
+    <!ENTITY dhcommand "glite-ce-job-submit">
+    <!ENTITY dhsection "1">
+    
+    <!ENTITY dhfirstname "Alvise">
+    <!ENTITY dhsurname "Dorigo">
+    <!ENTITY dhemail "alvise.dorigo@pd.infn.it">
+    <!ENTITY dhcontrib "Developer of the CREAM User Interface">
+    
+]>
+
+
+
+<refentry>
+
+    <refentryinfo>
+        <title>&dhtitle;</title>
+        <productname>&dhcommand;</productname>
+        <authorgroup>
+            <author>
+                <firstname>&dhfirstname;</firstname>
+                <surname>&dhsurname;</surname>
+                <contrib>&dhcontrib;</contrib>
+                <address>
+                    <email>&dhemail;</email>
+                </address>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>&dhcommand;</refentrytitle>
+        <manvolnum>&dhsection;</manvolnum>
+    </refmeta>
+
+    <refnamediv>
+        <refname>&dhcommand;</refname>
+        <refpurpose>Allows the user to submit a job for execution on a CREAM based CE</refpurpose>
+    </refnamediv>
+
+    <refsynopsisdiv>
+        <cmdsynopsis>
+            <command>&dhcommand;</command>
+            <arg choice="req"><replaceable>--resource <![CDATA[<CEId>]]></replaceable></arg>
+            <arg choice="opt"><option>options</option></arg>
+            <arg choice="req"><replaceable><![CDATA[<jdl_file>]]></replaceable></arg>
+        </cmdsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1>
+        <title>DESCRIPTION</title>
+        <para><command>&dhcommand;</command> is the command for submitting jobs to CREAM based Computing Elements.
+        <command>&dhcommand;</command> requires as mandatory inputs:
+        <itemizedlist>
+            <listitem><para>the identifier of the CREAM CE, specified using the option <option>--resource</option>, where the job has to be submitted;</para></listitem>
+            <listitem><para>a job description (JDL) file in which job characteristics and requirements have been specified via a CREAM JDL expression.</para></listitem>
+        </itemizedlist>
+        </para>
+        
+        <para>The job description file given in input to this command is syntactically checked and default values are assigned to the not provided mandatory attributes in
+        order to create a meaningful classad. The resulting ad is then sent to the CREAM CE.</para>
+
+        <para>Upon successful submission, this command returns to the user the submitted CREAM job identifier (jobId), a string that identifies unambiguously the job,
+        that can be later used as a handle to perform monitor and control operations on the job.</para>
+
+        <para>The format of the CREAM jobId is as follows: <uri><![CDATA[https://<CREAM_full_hostname>:<port>/CREAM<unique_string>]]></uri></para>
+
+        <para>It is possible to redirect the returned jobId to an output file using the <option>--output</option> option.
+        If the file already exists, the user is asked if she wants to overwrite the file, or if she prefers to abort the operation.</para>
+
+        <para>The <option>--resource</option> directive must be used to target the job submission to a specific CREAM CE, identified by its identifier CEId.
+        The CREAM CE identifier is a string that unambiguously identifies a CE CREAM service belonging to the Grid. The standard format for a CREAM CEId is:
+        <uri><![CDATA[<full-hostname>:<port-number>/cream-<service>-<queue-name>]]></uri>
+        where <![CDATA[<service>]]> identifies the underlying resource management system (e.g. lsf, pbs, etc.).</para>
+
+        <para>The submitted job is given the delegated credentials of the user who submitted the job: these credentials can then be used when operations requiring security
+        support (e.g. gridftp file transfers) has to be performed by the job. It is possible to rely on credentials previously delegated with the <command>glite-ce-delegate-proxy</command>
+        command or it is possible to ask the <quote>automatic</quote> delegation of the same credentials used during the submission operation.
+        In the former case the <option>--delegationId</option> option must be specified, while in the latter case the <option>--autm-delegation</option> option must be used.
+        Please note that one  (and  only  one)  among  these  two options must be specified.</para>
+        
+    </refsect1>
+
+    <refsect1>
+        <title>OPTIONS</title>
+        <variablelist>
+
+            <varlistentry>
+                <term><option>--help</option></term>
+                <term><option>-h</option></term>
+                <listitem>
+                    <para>Displays command usage.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--autm-delegation</option></term>
+                <term><option>-a</option></term>
+                <listitem>
+                    <para>Specifies that the proxy credentials that have to be delegated are the ones used for this job submission.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--conf <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-c <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the user specific configuration file.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--delegationId  <replaceable class="parameter"><![CDATA[<ID>]]></replaceable></option></term>
+                <term><option>-D <replaceable class="parameter"><![CDATA[<ID>]]></replaceable></option></term>
+                <listitem>
+                    <para>Forces the submitted job to use previously delegated (via the command <command>glite-ce-delegate-proxy</command>) user credentials,
+                    identified with the specified <![CDATA[<ID>]]>.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--donot-verify-ac-sign</option></term>
+                <term><option>-A</option></term>
+                <listitem>
+                    <para>Allows the execution of the command even if the VO  voms  server certificate is not installed.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--debug</option></term>
+                <term><option>-d</option></term>
+                <listitem>
+                    <para>When this option is specified,  debugging  information  is  displayed  on  the  standard  output and written also into the file <filename>&dhcommand;<![CDATA[_CREAM_<username>_<date>_<time>.log]]></filename> file under (by default) the <filename>/tmp/glite_cream_cli_logs</filename> directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--logfile <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-l <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>When this option is specified, a command log file  (whose  pathname is file_name) is created.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--noint</option></term>
+                <term><option>-N</option></term>
+                <listitem>
+                    <para>If this option is specified every interactive question to the user is skipped, and default values (yes; all: consider all jobs of the given list) will be considered.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--nomsg</option></term>
+                <term><option>-n</option></term>
+                <listitem>
+                    <para>This option makes the command print on the standard output only the result of the operation (or error messages in case of failure). Therefore any warning or info message is suppressed if this option is used.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--output <replaceable class="parameter">file_name</replaceable></option></term>
+                <term><option>-o <replaceable class="parameter">file_name</replaceable></option></term>
+                <listitem>
+                    <para>Writes the generated jobId assigned to the submitted job in the file specified by file_name.
+                    file_name can be either a simple name or an absolute path on the submitting machine. 
+                    In the former case the file file_name is considered in the current working directory.</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--resource <replaceable class="parameter"><![CDATA[<ce_ID>]]></replaceable></option></term>
+                <term><option>-r <replaceable class="parameter"><![CDATA[<ce_ID>]]></replaceable></option></term>
+                <listitem>
+                    <para>Specifies that the job has to be submitted to the CREAM CE identified by the specified ce_id. 
+                    Standard format for the CREAM CEId is:<![CDATA[<full hostname>:<port number>/cream-<service>-<queue name>]]>
+                    where <![CDATA[<service>]]> specifies the underlying local resource management system (e.g. lsf, pbs, etc.)</para>
+                </listitem>
+            </varlistentry>
+
+            <varlistentry>
+                <term><option>--version</option></term>
+                <term><option>-v</option></term>
+                <listitem>
+                    <para>Displays the version of the CREAM CLI software.</para>
+                </listitem>
+            </varlistentry>
+            
+            <varlistentry>
+                <term><option>--vo <replaceable class="parameter">VO_name</replaceable></option></term>
+                <term><option>-V <replaceable class="parameter">VO_name</replaceable></option></term>
+                <listitem>
+                    <para>Specifies the Virtual Organisation the user belongs to.
+                    This option is ignored if the user issued the command using a VOMS proxy:
+                    in this case in fact the VO to be considered is the one specified in the VOMS proxy.</para>
+                </listitem>
+            </varlistentry>
+
+        </variablelist>
+    </refsect1>
+
+    <refsect1>
+        <title>EXIT STATUS</title>
+        <para><command>&dhcommand;</command> exits with a status value of 0 (zero) upon success, and >0 (greater than zero) upon failure.</para>
+    </refsect1>
+
+    <refsect1>
+        <title>EXAMPLES</title>
+        
+        <para><command>glite-ce-job-submit -a -r grid005.pd.infn.it:8443/cream-lsf-grid02 myjob1.jdl</command></para>
+        <para>where myjob1.jdl is e.g. as follows:</para>
+        <para><screen>
+[
+ JobType = "Normal";
+ Executable = "sum.exe";
+ StdOutput="out.out";
+ StdError="err.err";
+ Environment={"CMSVER=321"};
+ InputSandbox={"file:///home/user/sum.exe", "otherfile"};
+ InputSandboxBaseUri="gsiftp://se1.pd.infn.it/cmssw";
+ OutputSandbox={"out.out", "err.err", ``hist.out''};
+ OutputSandboxBaseDestUri="gsiftp://se2.pd.infn.it/myfiles";
+]
+        </screen></para>
+    </refsect1>
+
+    <refsect1>
+        <title>SEE ALSO</title>
+        <para>
+            <citerefentry>
+                <refentrytitle>glite-ce-delegate-proxy</refentrytitle>
+                <manvolnum>1</manvolnum>
+            </citerefentry>
+        </para>
+    </refsect1>
+
+</refentry>
+
