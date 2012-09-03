@@ -55,5 +55,5 @@ set_target_properties(glite_ce_cream_cli_services PROPERTIES VERSION 0.0.0 SOVER
 target_link_libraries(glite_ce_cream_cli_services ${COMMON_LIBS})
 
 install(TARGETS glite_ce_cream_cli_services
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
 

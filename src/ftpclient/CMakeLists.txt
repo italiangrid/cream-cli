@@ -31,4 +31,4 @@ set_target_properties(glite_ce_cream_cli_ftpclient PROPERTIES VERSION 0.0.0 SOVE
 target_link_libraries(glite_ce_cream_cli_ftpclient ${COMMON_LIBS})
 
 install(TARGETS glite_ce_cream_cli_ftpclient
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
