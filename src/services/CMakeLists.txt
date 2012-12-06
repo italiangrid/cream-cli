@@ -45,7 +45,6 @@ add_library(glite_ce_cream_cli_services SHARED
                      cli_service_jobresume.cpp
                      cli_service_jobstatus.cpp
                      cli_service_jobsubmit.cpp
-                     cli_service_esjobsubmit.cpp
                      cli_service_jobsuspend.cpp
                      cli_service_proxy_renew.cpp
                      cli_service_service_info.cpp)
