@@ -52,6 +52,10 @@ pkg_check_modules(VOMS voms-2.0)
 pkg_check_modules(GRIDSITE_OPENSSL emi-gridsite-openssl)
 pkg_check_modules(CLASSAD emi-classad-ns)
 
+if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
+    set(BOOST_LIBRARYDIR "/usr/lib64")
+endif( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
+
 set(Boost_USE_MULTITHREADED ON)
 find_package( Boost COMPONENTS date_time filesystem regex thread program_options)
 
