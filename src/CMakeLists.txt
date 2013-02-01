@@ -21,7 +21,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSOAP gsoapssl++)
-pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin)
+pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin++)
 pkg_check_modules(GLITE_JOBID emi-jobid)
 pkg_check_modules(GLITE_CREAM_SOAP cream-client-api-soap)
 pkg_check_modules(GLITE_CREAM_UTIL cream-client-api-util)
