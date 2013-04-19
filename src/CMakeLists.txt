@@ -19,6 +19,20 @@
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 
+if( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+    if( IS_DIRECTORY "/usr/lib64" )
+        set(LIBSUBDIR "lib64")
+    else( IS_DIRECTORY "/usr/lib64" )
+        set(LIBSUBDIR "lib")
+    endif( IS_DIRECTORY "/usr/lib64" )
+else( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+    if( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+        set(LIBSUBDIR "lib64")
+    else( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+        set(LIBSUBDIR "lib")
+    endif( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+endif( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSOAP gsoapssl++)
 pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin++)
