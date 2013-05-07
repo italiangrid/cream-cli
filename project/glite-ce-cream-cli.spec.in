@@ -1,0 +1,69 @@
+Summary: Commands for accessing the CREAM service
+Name: glite-ce-cream-cli
+Version: @PKGVERSION@
+Release: @PKGRELEASE@
+License: Apache Software License
+Vendor: EMI
+URL: http://glite.cern.ch/
+Group: Applications/Internet
+BuildArch: %{_arch}
+Requires: uberftp
+BuildRequires: cmake, chrpath, emi-pkgconfig-compat
+BuildRequires: glite-ce-cream-client-devel, glite-jdl-api-cpp-devel
+BuildRequires: globus-common-devel, globus-callout-devel, globus-openssl-devel
+BuildRequires: globus-openssl-module-devel, globus-gsi-callback-devel, globus-gsi-cert-utils-devel
+BuildRequires: globus-gsi-credential-devel, globus-gsi-openssl-error-devel, globus-gsi-proxy-core-devel
+BuildRequires: globus-gsi-proxy-ssl-devel, globus-gsi-sysconfig-devel,globus-gssapi-error-devel
+BuildRequires: globus-gssapi-gsi-devel, globus-gss-assist-devel
+BuildRequires: globus-ftp-client-devel, globus-ftp-control-devel
+BuildRequires: gridsite-devel, voms-devel, libxml2-devel, boost-devel
+BuildRequires: glite-jobid-api-c-devel, classads-devel, 
+BuildRequires: glite-lbjp-common-gsoap-plugin-devel, docbook-style-xsl, libxslt
+BuildRequires: gsoap-devel, log4cpp-devel, c-ares-devel
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+AutoReqProv: yes
+Source: %{name}.tar.gz
+
+%global debug_package %{nil}
+
+%description
+The CREAM client is a collection of commands for accessing the CREAM service
+
+%prep
+ 
+
+%setup -c
+
+%build
+cmake -DCMAKE_INSTALL_PREFIX:string=%{buildroot} %{_builddir}/%{name}-%{version}
+make
+
+%install
+rm -rf %{buildroot}
+mkdir -p %{buildroot}
+make install
+
+%clean
+rm -rf %{buildroot}
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig 
+
+%files
+%defattr(-,root,root)
+%dir /etc/glite-ce-cream-cli/
+%config(noreplace) /etc/glite-ce-cream-cli/glite_cream.conf.template
+/usr/bin/glite-ce-*
+%doc /usr/share/man/man1/glite-ce-*.1.gz
+/usr/lib64/libglite_ce_cream_cli_*.so
+/usr/lib64/libglite_ce_cream_cli_*.so.0
+/usr/lib64/libglite_ce_cream_cli_*.so.0.0.0
+
+
+
+%changelog
+* Fri Aug 31 2012 CREAM group <cream-support@lists.infn.it> - @PKGVERSION@-@PKGRELEASE@
+- New major release
+ 
+

@@ -24,5 +24,5 @@ add_library(glite_ce_cream_cli_util SHARED
 set_target_properties(glite_ce_cream_cli_util PROPERTIES VERSION 0.0.0 SOVERSION 0)
 
 install(TARGETS glite_ce_cream_cli_util
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
 

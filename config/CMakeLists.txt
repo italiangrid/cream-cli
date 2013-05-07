@@ -17,18 +17,9 @@
 #  limitations under the License.
 #  
 
-include_directories(${CLASSAD_INCLUDE_DIRS}
-                    ${VOMS_INCLUDE_DIRS}
-                    ${GSOAP_INCLUDE_DIRS}
-                    ${LOG4CPP_INCLUDE_DIRS}
-                    ${Boost_INCLUDE_DIRS}
-                    ${GLOBUS_CORE_INCLUDE_DIRS})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+        DESTINATION etc/glite-ce-cream-cli
+        FILES_MATCHING PATTERN "*.template"
+        PATTERN "CMakeFiles" EXCLUDE)
 
-add_library(glite_ce_cream_cli_ftpclient SHARED gridftpClient.cpp)
 
-set_target_properties(glite_ce_cream_cli_ftpclient PROPERTIES VERSION 0.0.0 SOVERSION 0)
-
-target_link_libraries(glite_ce_cream_cli_ftpclient ${COMMON_LIBS})
-
-install(TARGETS glite_ce_cream_cli_ftpclient
-        LIBRARY DESTINATION usr/${LIBSUBDIR})

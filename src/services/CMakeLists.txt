@@ -45,7 +45,6 @@ add_library(glite_ce_cream_cli_services SHARED
                      cli_service_jobresume.cpp
                      cli_service_jobstatus.cpp
                      cli_service_jobsubmit.cpp
-                     cli_service_esjobsubmit.cpp
                      cli_service_jobsuspend.cpp
                      cli_service_proxy_renew.cpp
                      cli_service_service_info.cpp)
@@ -55,5 +54,5 @@ set_target_properties(glite_ce_cream_cli_services PROPERTIES VERSION 0.0.0 SOVER
 target_link_libraries(glite_ce_cream_cli_services ${COMMON_LIBS})
 
 install(TARGETS glite_ce_cream_cli_services
-        LIBRARY DESTINATION usr/lib)
+        LIBRARY DESTINATION usr/${LIBSUBDIR})
 

@@ -1,0 +1,176 @@
+[
+//
+// CREAM_URL_PREFIX is the prefix to the hostname:port to build
+// the CREAM service endpoint.
+// The default is:
+// CREAM_URL_PREFIX="https://";
+//
+//
+// CREAMDELEGATION_URL_PREFIX is the prefix to the hostname:port to build
+// the CREAM delegation service endpoint.
+// The default is: 
+// CREAMDELEGATION_URL_PREFIX="https://";
+//
+//
+// DEFAULT_CREAM_TCP_PORT is the port to be appended to
+// the hostname (if not specified by the user) to build the CREAM and 
+// CREAM delegation service endpoint.
+// The default is:
+// DEFAULT_CREAM_TCPPORT=8443;
+//
+//
+// CREAM_URL_POSTFIX is the postfix to be appended to the hostname:port
+// to build the CREAM service endpoint.
+// The default is:
+// CREAM_URL_POSTFIX="/ce-cream/services/CREAM2";
+//
+//
+// CREAMDELEGATION_URL_POSTFIX is the postfix to be appended to the
+// hostname:port to build the CREAM delegation service endpoint.
+// The default is:
+// CREAMDELEGATION_URL_POSTFIX="/ce-cream/services/gridsite-delegation";
+//
+//
+// JDL_DEFAULT_ATTRIBUTES is the classad that must be included by default
+// in the user's JDLs.
+// The default is an empty classad.
+// Example:
+// JDL_DEFAULT_ATTRIBUTES= [
+//   OutputSandboxBaseDDdestURI="gsiftp://server.pd.infn.it/data";
+//   HLRLocation="grid003.mi.infn.it:56568:/C=IT/O=INFN/OU=Host/L=Milano/CN=grid003.mi.infn.it";
+//                         ];
+//
+//
+// STATUS_VERBOSITY_LEVEL is the default verbosity level to be used for
+// the glite-ce-job-status command.
+// The default value is:
+// STATUS_VERBOSITY_LEVEL=1;
+//
+//
+// UBERFTP_CLIENT is the pathname of the uberftp client executable
+// The default valie is:
+// UBERFTP_CLIENT="/opt/globus/bin/uberftp" 
+//
+//
+// SUBMIT_LOG_DIR is the directory where by default the log file
+// glite-ce-job-submit_CREAM_<username>_<date>_<time>.log
+// (created when the {--debug option is used with the glite-ce-job-submit
+// command is created.
+// The default is:
+// SUBMIT_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// DELEGATE_LOG_DIR is the directory where by default the log file
+// glite-ce-delegate-proxy_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the
+// glite-ce-delegate-proxy command) is created.
+// The default is:
+// DELEGATE_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// STATUS_LOG_DIR is the directory where by default the log file
+// glite-ce-job-status_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-status
+// command) is created.
+// The default is:
+// STATUS_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// LIST_LOG_DIR is the directory where by default the log file
+// glite-ce-job-list_CREAM_<username>\_<date>\_<time>.log
+// (created when the --debug option is used with the {glite-ce-job-list
+// command) is created.
+// The default is:
+// LIST_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// SUSPEND_LOG_DIR is the directory where by default the log file
+// glite-ce-job-suspend_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-suspend
+// command) is created.
+// The default is:
+// SUSPEND_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// RESUME_LOG_DIR is the directory where by default the log file
+// glite-ce-job-resume_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-resume
+// command) is created.
+// The default is:
+// RESUME_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// CANCEL_LOG_DIR is the directory where by default the log file
+// glite-ce-job-cancel_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-cancel
+// command) is created.
+// The default is:
+// CANCEL_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// PURGE_LOG_DIR is the directory where by default the log file
+// glite-ce-job-purge_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-purge
+// command) is created.
+// The default is:
+// PURGE_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// ALLOWEDSUB_LOG_DIR is the directory where by default the log file
+// glite-ce-allowed-submission_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-allowed-submission
+// command) is created.
+// The default is:
+// ALLOWEDSUB_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// ENABLE_LOG_DIR is the directory where by default the log file
+// glite-ce-enable-submission_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-enable-submission
+// command) is created.
+// The default is:
+// ENABLE_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// DISABLE_LOG_DIR is the directory where by default the log file
+// glite-ce-disable-submission_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-disable-submission
+// command) is created.
+// The default is:
+// DISABLE_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// PROXYRENEW_LOG_DIR is the directory where by default the log file
+// glite-ce-proxy-renew_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-proxy-renew
+// command) is created.
+// The default is:
+// PROXYRENEW_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// GETCEMONURL_LOG_DIR is the directory where by default the log file
+// glite-ce-get-cemon-url_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-get-cemon-url
+// command) is created.
+// The default is:
+// GETCEMONURL_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// JOBOUTPUT_LOG_DIR is the directory where by default the log file
+// glite-ce-job-output_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-job-output
+// command) is created.
+// The default is:
+// JOBOUTPUT_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+// GETSERVICEINFO_LOG_DIR is the directory where by default the log file
+// glite-ce-service-info_CREAM_<username>_<date>_<time>.log
+// (created when the --debug option is used with the glite-ce-service-info
+// command) is created.
+// The default is:
+// GETSERVICEINFO_LOG_DIR="/tmp/glite_cream_cli_logs";
+//
+//
+]
+

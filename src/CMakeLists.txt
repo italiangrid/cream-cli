@@ -19,9 +19,23 @@
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 
+if( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+    if( IS_DIRECTORY "/usr/lib64" )
+        set(LIBSUBDIR "lib64")
+    else( IS_DIRECTORY "/usr/lib64" )
+        set(LIBSUBDIR "lib")
+    endif( IS_DIRECTORY "/usr/lib64" )
+else( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+    if( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+        set(LIBSUBDIR "lib64")
+    else( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+        set(LIBSUBDIR "lib")
+    endif( IS_DIRECTORY "/usr/lib64" AND NOT IS_SYMLINK "/usr/lib64" )
+endif( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSOAP gsoapssl++)
-pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin)
+pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin++)
 pkg_check_modules(GLITE_JOBID emi-jobid)
 pkg_check_modules(GLITE_CREAM_SOAP cream-client-api-soap)
 pkg_check_modules(GLITE_CREAM_UTIL cream-client-api-util)
@@ -51,6 +65,10 @@ pkg_check_modules(LOG4CPP log4cpp)
 pkg_check_modules(VOMS voms-2.0)
 pkg_check_modules(GRIDSITE_OPENSSL emi-gridsite-openssl)
 pkg_check_modules(CLASSAD emi-classad-ns)
+
+if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
+    set(BOOST_LIBRARYDIR "/usr/lib64")
+endif( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
 
 set(Boost_USE_MULTITHREADED ON)
 find_package( Boost COMPONENTS date_time filesystem regex thread program_options)
@@ -190,84 +208,6 @@ target_link_libraries(glite-ce-service-info ${COMMON_LIBS}
                                             glite_ce_cream_cli_services
                                             glite_ce_cream_cli_ftpclient)
 
-add_executable(glite-es-activity-cancel glite-es-activity-cancel.cpp)
-target_link_libraries(glite-es-activity-cancel ${COMMON_LIBS}
-                                               glite_ce_cream_cli_util
-                                               glite_ce_cream_cli_services
-                                               glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-create glite-es-activity-create.cpp)
-target_link_libraries(glite-es-activity-create ${COMMON_LIBS}
-                                               glite_ce_cream_cli_util
-                                               glite_ce_cream_cli_services
-                                               glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-info glite-es-activity-info.cpp)
-target_link_libraries(glite-es-activity-info ${COMMON_LIBS}
-                                             glite_ce_cream_cli_util
-                                             glite_ce_cream_cli_services
-                                             glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-list glite-es-activity-list.cpp)
-target_link_libraries(glite-es-activity-list ${COMMON_LIBS}
-                                             glite_ce_cream_cli_util
-                                             glite_ce_cream_cli_services
-                                             glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-pause glite-es-activity-pause.cpp)
-target_link_libraries(glite-es-activity-pause ${COMMON_LIBS}
-                                              glite_ce_cream_cli_util
-                                              glite_ce_cream_cli_services
-                                              glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-restart glite-es-activity-restart.cpp)
-target_link_libraries(glite-es-activity-restart ${COMMON_LIBS}
-                                                glite_ce_cream_cli_util
-                                                glite_ce_cream_cli_services
-                                                glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-resume glite-es-activity-resume.cpp)
-target_link_libraries(glite-es-activity-resume ${COMMON_LIBS}
-                                               glite_ce_cream_cli_util
-                                               glite_ce_cream_cli_services
-                                               glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-status glite-es-activity-status.cpp)
-target_link_libraries(glite-es-activity-status ${COMMON_LIBS}
-                                               glite_ce_cream_cli_util
-                                               glite_ce_cream_cli_services
-                                               glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-activity-wipe glite-es-activity-wipe.cpp)
-target_link_libraries(glite-es-activity-wipe ${COMMON_LIBS}
-                                             glite_ce_cream_cli_util
-                                             glite_ce_cream_cli_services
-                                             glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-delegate-proxy glite-es-delegate-proxy.cpp)
-target_link_libraries(glite-es-delegate-proxy ${COMMON_LIBS}
-                                             glite_ce_cream_cli_util
-                                             glite_ce_cream_cli_services
-                                             glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-delegation-info glite-es-delegation-info.cpp)
-target_link_libraries(glite-es-delegation-info ${COMMON_LIBS}
-                                               glite_ce_cream_cli_util
-                                               glite_ce_cream_cli_services
-                                               glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-delegation-renew glite-es-delegation-renew.cpp)
-target_link_libraries(glite-es-delegation-renew ${COMMON_LIBS}
-                                                glite_ce_cream_cli_util
-                                                glite_ce_cream_cli_services
-                                                glite_ce_cream_cli_ftpclient)
-
-add_executable(glite-es-notify-service glite-es-notify-service.cpp)
-target_link_libraries(glite-es-notify-service ${COMMON_LIBS}
-                                              glite_ce_cream_cli_util
-                                              glite_ce_cream_cli_services
-                                              glite_ce_cream_cli_ftpclient)
-
 
 install(TARGETS glite-ce-allowed-submission
                 glite-ce-delegate-proxy
@@ -286,19 +226,6 @@ install(TARGETS glite-ce-allowed-submission
                 glite-ce-job-suspend
                 glite-ce-proxy-renew
                 glite-ce-service-info
-                glite-es-activity-cancel
-                glite-es-activity-create
-                glite-es-activity-info
-                glite-es-activity-list
-                glite-es-activity-pause
-                glite-es-activity-restart
-                glite-es-activity-resume
-                glite-es-activity-status
-                glite-es-activity-wipe
-                glite-es-delegate-proxy
-                glite-es-delegation-info
-                glite-es-delegation-renew
-                glite-es-notify-service
         RUNTIME DESTINATION usr/bin)
 
 
