@@ -65,12 +65,12 @@ int cli_service_jobstatus::execute( void ) throw( )
     }
   }
   
-  string serviceAddress = this->getConfMgr()->getProperty("CREAM_URL_PREFIX", DEFAULT_PROTO)+
-    m_endpoint+"/" + this->getConfMgr()->getProperty("CREAM_URL_POSTFIX",DEFAULT_CEURL_POSTFIX);
-  
-//  if ( m_logging && !m_endpoint.empty()) {
-    this->getLogger()->debug( "Service address=[%s]", serviceAddress.c_str() );
-//  }
+//   string serviceAddress;
+//   if( !m_endpoint.empty()) {
+//     serviceAddress = this->getConfMgr()->getProperty("CREAM_URL_PREFIX", DEFAULT_PROTO)+
+//     m_endpoint+"/" + this->getConfMgr()->getProperty("CREAM_URL_POSTFIX",DEFAULT_CEURL_POSTFIX);
+//     //this->getLogger()->debug( "Service address=[%s]", serviceAddress.c_str() );
+//   }
   
 
 
@@ -78,7 +78,6 @@ int cli_service_jobstatus::execute( void ) throw( )
     bool isjoblist = true;
     int f;
     
-//    if(m_logging)
       this->getLogger()->debug( string("Getting job list from file [") + m_inputfile + "]" );
     
     if((f=open(m_inputfile.c_str(), O_RDONLY))==-1) {
@@ -187,7 +186,13 @@ int cli_service_jobstatus::execute( void ) throw( )
       
       string result;
 
-      m_creamClient->setCredential( m_certfile );
+    try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 
       try {
 
@@ -229,7 +234,13 @@ int cli_service_jobstatus::execute( void ) throw( )
 	  return 1;
 	}
       
-      m_creamClient->setCredential( m_certfile );
+    try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
       
       m_endpoint = this->getConfMgr()->getProperty("CREAM_URL_PREFIX", DEFAULT_PROTO)
 	+ m_endpoint + "/" + this->getConfMgr()->getProperty("CREAM_URL_POSTFIX", DEFAULT_CEURL_POSTFIX);
@@ -285,7 +296,13 @@ int cli_service_jobstatus::execute( void ) throw( )
 	      return 1;
 	    }
 
-	  m_creamClient->setCredential( m_certfile );
+    try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 	  string result;
 
 
@@ -337,7 +354,13 @@ int cli_service_jobstatus::execute( void ) throw( )
 	      return 1;
 	    }
 
-	  m_creamClient->setCredential( m_certfile );
+    try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 
 
 

@@ -20,7 +20,7 @@
         glite-ce-disable-submission: a command line interface to set to OFF the submission on a CREAM service
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: glite-ce-disable-submission.cpp,v 1.9.4.1.4.4.2.1.2.3.2.2 2012/01/11 15:57:05 adorigo Exp $
+        Version info: $Id: glite-ce-disable-submission.cpp,v 1.9.4.1.4.4.2.1.2.3.2.3 2012/09/14 09:10:29 adorigo Exp $
 */
 /**
  *
@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
   bool verify_ac_sign = true;
 
   po::options_description desc("Usage");
+  try {
   desc.add_options()
   	("help,h", "display this help and exit")
 	(
@@ -144,6 +145,10 @@ int main(int argc, char *argv[]) {
          )
 	 ("endpoint", po::value<string>(), "Set the endpoint where disable submission")
 	;
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
 
     po::positional_options_description p;
     p.add("endpoint", -1);

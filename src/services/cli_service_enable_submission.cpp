@@ -75,7 +75,13 @@ int cli_service_enable_submission::execute( ) throw( ) {
       return 1;
     }
   
-  m_creamClient->setCredential( m_certfile );
+     try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
   
   try {
 

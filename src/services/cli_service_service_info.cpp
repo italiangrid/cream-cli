@@ -44,7 +44,7 @@ int cli_service_service_info::execute( ) throw( ) {
     return 1;
   }
 
-  this->set_logfile( "ALLOWEDSUB_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-allowed-submission" );
+  this->set_logfile( "GETSERVICEINFO_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-service-info" );
   
   try{
     if( !cliUtils::checkEndpointFormat( m_endpoint ) )
@@ -84,12 +84,19 @@ int cli_service_service_info::execute( ) throw( ) {
 
   if(!m_creamClient) 
     {
-      this->getLogger()->fatal( "FAILED CREATION OF AN AbsCreamProxy OBJECT! STOP!" );
+//      this->getLogger()->fatal( "FAILED CREATION OF AN AbsCreamProxy OBJECT! STOP!" );
+      m_execution_fail_message = "FAILED CREATION OF AN AbsCreamProxy OBJECT! STOP!";
       return 1;
     }
 
-  m_creamClient->setCredential( m_certfile );
-
+  try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
+  
   try {
     m_creamClient->execute( serviceAddress );
   } catch(BaseException& ex) {

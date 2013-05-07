@@ -93,6 +93,7 @@ int main(int argc, char *argv[]) {
   string states;
 
     po::options_description desc("Usage");
+    try {
     desc.add_options()
         ("help,h", "display this help and exit")
         (
@@ -141,6 +142,10 @@ int main(int argc, char *argv[]) {
 	  "event-id,E", po::value<string>(&eventid_range), "Set the range extremes of events CREAM must return"
 	 )
         ;
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
 	
     po::positional_options_description p;
     p.add("event-id", -1);
@@ -159,7 +164,12 @@ int main(int argc, char *argv[]) {
              << endl;
         exit( 1 );
     }
-
+  
+  if ( vm.count("help") ) {
+    printhelp();
+    return 0;
+  }
+  
   if( vm.count("debug") && vm.count("nomsg") ) {
     cerr << "Cannot specify both --debug and --nomsg options. Stop." << endl;
     return 1;
@@ -181,10 +191,7 @@ int main(int argc, char *argv[]) {
   if( vm.count("donot-verify-ac-sign") )
     verify_ac_sign = false;
     
-  if ( vm.count("help") ) {
-    printhelp();
-    return 0;
-  }
+
   
   if ( vm.count("version") ) {
     help_messages::printver();

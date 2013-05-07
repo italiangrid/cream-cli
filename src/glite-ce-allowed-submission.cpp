@@ -20,7 +20,7 @@
         glite-ce-allowed-submission: a command line interface to determine if a CREAM submissione is enabled
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: glite-ce-allowed-submission.cpp,v 1.6.4.1.4.4.2.2.2.3.2.2 2012/01/11 15:57:05 adorigo Exp $
+        Version info: $Id: glite-ce-allowed-submission.cpp,v 1.6.4.1.4.4.2.2.2.3.2.4 2012/09/14 09:10:29 adorigo Exp $
 */
 
 /**
@@ -83,21 +83,18 @@ void soap_serialize_xsd__QName(soap*,
 
 int main(int argc, char *argv[]) {
 
-  string endpoint;
-  bool debug = false;
-  string logfile;
-  bool redir_out = false;
-  bool nomsg=false;
-
-//  bool noint = false;
-  string user_conf_file = "";
-  string certfile;
-
-  int timeout = 30;
-
-  bool verify_ac_sign = true;
+  string  endpoint;
+  bool    debug = false;
+  string  logfile;
+  bool    redir_out = false;
+  bool    nomsg=false;
+  string  user_conf_file = "";
+  string  certfile;
+  int     timeout = 30;
+  bool    verify_ac_sign = true;
   
   po::options_description desc("Usage");
+  try {
   desc.add_options()
   	("help,h", "display this help and exit")
 	(
@@ -137,6 +134,10 @@ int main(int argc, char *argv[]) {
          )
 	 ("endpoint", po::value<string>(), "Set the endpoint to ask the submission enable status")
 	;
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
 
     po::positional_options_description p;
     p.add("endpoint", -1);

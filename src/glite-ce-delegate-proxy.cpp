@@ -20,7 +20,7 @@
         glite-ce-delegate-proxy: a command line to delegate a user's proxy to the CE
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: glite-ce-delegate-proxy.cpp,v 1.67.4.1.4.4.2.1.2.3.2.3 2012/01/11 15:57:05 adorigo Exp $
+        Version info: $Id: glite-ce-delegate-proxy.cpp,v 1.67.4.1.4.4.2.1.2.3.2.4 2012/09/14 09:10:29 adorigo Exp $
 */
 
 #include <getopt.h>
@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
 
   bool verify_ac_sign = true;
   po::options_description desc("Usage");
+  try {
   desc.add_options()
     ("help,h", "display this help and exit")
     (
@@ -116,6 +117,10 @@ int main(int argc, char *argv[]) {
     ("endpoint,e", po::value<string>(&endpoint), "Set the endpoint to ask the submission enable status")
     ("delegation-id,D", po::value<string>(&DID), "")
     ;
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
   
   po::positional_options_description p;
   p.add("delegation-id", -1);

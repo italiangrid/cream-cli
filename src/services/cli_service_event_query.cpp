@@ -104,7 +104,13 @@ int cli_service_event_query::execute( void ) throw( )
       return 1;
     }
 
-  m_creamClient->setCredential( m_certfile );
+     try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
     
   string baseServiceAddr = this->getConfMgr()->getProperty("CREAM_URL_PREFIX", DEFAULT_PROTO) + m_endpoint +"/";
 

@@ -227,6 +227,11 @@ int cli_service_jobsubmit::execute( void ) throw( )
   
   for( ; it != m_jdlfiles.end(); ++it ) {
 
+    if(!boost::filesystem::exists( boost::filesystem::path(*it, boost::filesystem::native) ) ) {
+      this->getLogger()->error( "JDL file [" + *it + "] does not exist. Skipping..." );
+      continue;
+    }
+
     if(!goodJDL( *it )) {
       this->getLogger()->error( "Error while processing file ["
                                 + *it + "]: Syntax error"
@@ -623,7 +628,13 @@ int cli_service_jobsubmit::execute( void ) throw( )
 	return 1;
       }
 
+      try {
     m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 
     m_creamClient->execute( serviceAddress ); // can raise something
      
@@ -759,7 +770,13 @@ int cli_service_jobsubmit::execute( void ) throw( )
 	return 1;
       }
      
+      try {
     m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
     m_creamClient->execute( serviceAddress );
      
      
@@ -850,7 +867,13 @@ bool cli_service_jobsubmit::make_delegation( const string& deleg_service ) throw
 
   //cout << "make_delegation: deleg_service=[" << deleg_service << "]" << endl;
 
-  creamDelegClient->setCredential( m_certfile );
+    try {
+    creamDelegClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return false;
+  }
 
   try {
     creamDelegClient->execute( deleg_service );

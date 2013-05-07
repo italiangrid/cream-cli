@@ -198,7 +198,13 @@ int cli_service_jobcancel::execute( void ) throw( )
 	  return 1;
 	}
 	
-      m_creamClient->setCredential( m_certfile );
+     try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
       m_creamClient->execute( serviceAddress );
       
       //cliUtils::printResult( result );
@@ -228,7 +234,13 @@ int cli_service_jobcancel::execute( void ) throw( )
 	//boost::scoped_ptr< apiproxy::AbsCreamProxy > tmpClient;
 	//tmpClient.reset( creamClient );
 	
-	m_creamClient->setCredential( m_certfile );
+     try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 	m_creamClient->execute( (*it).first.c_str() );
 	
 	//cliUtils::printResult( result );

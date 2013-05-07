@@ -92,6 +92,10 @@ int cli_service_delegate_proxy::execute( ) throw( )
   } catch(exception& ex) {
     m_execution_fail_message = ex.what();
     return 1;
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
   }
   
   return 0;

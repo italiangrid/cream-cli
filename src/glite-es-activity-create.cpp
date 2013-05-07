@@ -308,6 +308,7 @@ int main( int argc, char* argv[] ) {
     cerr << error << endl;
     return 1;
   }
+  cout << endl << "SOAP BUFFER=[" << call->get_soap_buffer( ) << "]" << endl << endl;
   CreateActivityDescriptionFromXML::free( actDesc );
   
 

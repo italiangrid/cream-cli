@@ -195,7 +195,12 @@ int cli_service_jobsuspend::execute( void ) throw( )
 	  return 1;
 	}
 	
-      m_creamClient->setCredential( m_certfile );
+        try {
+          m_creamClient->setCredential( m_certfile );
+        } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+           m_execution_fail_message = ex.what();
+           return 1;
+        }
       m_creamClient->execute( serviceAddress );
       
       cliUtils::processResult( result, *m_fail_result );
@@ -205,7 +210,7 @@ int cli_service_jobsuspend::execute( void ) throw( )
     else {
       for(map<string, vector<string> >::iterator it=url_jobids.begin(); it!=url_jobids.end(); it++) {
 //	if( m_logging)
-	  this->getLogger()->debug( string("Cancel selected jobs on [")+(*it).first+"]..." );
+	  this->getLogger()->debug( string("Suspend selected jobs on [")+(*it).first+"]..." );
 	  
 	vector<apiproxy::JobIdWrapper> target;
 	stripCreamURL strip( &target, this->getConfMgr() );
@@ -218,7 +223,13 @@ int cli_service_jobsuspend::execute( void ) throw( )
 	    return 1;
 	  }
 	
-	m_creamClient->setCredential( m_certfile );
+  try {
+    m_creamClient->setCredential( m_certfile );
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
+    m_execution_fail_message = ex.what();
+    return 1;
+  }
 	m_creamClient->execute( (*it).first.c_str() );
 	
 	cliUtils::processResult( result, *m_fail_result );

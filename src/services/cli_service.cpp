@@ -17,7 +17,7 @@ cream_cli::cli_service::cli_service( const cli_service_common_options& opt )
     m_user_conf_file( opt.m_user_conf_file ), m_certfile( opt.m_certfile ), 
     m_logfile( opt.m_logfile ), m_endpoint( opt.m_endpoint ), m_soap_timeout( opt.m_soap_timeout ),
     m_creamClient( 0 ),
-    m_esClient( 0 ),
+//    m_esClient( 0 ),
     m_initialized( false ),
     m_execution_fail_message( "" )
 //    m_logging( true )

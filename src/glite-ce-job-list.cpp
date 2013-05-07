@@ -20,7 +20,7 @@
         glite-ce-job-list: a command line interface to get the list of jobs held by the CREAM service
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: glite-ce-job-list.cpp,v 1.61.4.1.4.4.2.1.2.3.2.3 2012/04/16 17:00:14 adorigo Exp $
+        Version info: $Id: glite-ce-job-list.cpp,v 1.61.4.1.4.4.2.1.2.3.2.4 2012/09/14 09:10:29 adorigo Exp $
 */
 
 /**
@@ -108,6 +108,7 @@ int main(int argc, char *argv[]) {
 //   logger_instance->setLogfileEnabled( WRITE_LOG_ON_FILE );
 
   po::options_description desc("Usage");
+  try {
     desc.add_options()
         ("help,h", "display this help and exit")
         (
@@ -156,6 +157,10 @@ int main(int argc, char *argv[]) {
          )
 	 ("endpoint", po::value<string>(&endpoint), "Set the endpoint to ask the Job IDs to")
         ;
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
 	
     po::positional_options_description p;
     p.add("endpoint", -1);

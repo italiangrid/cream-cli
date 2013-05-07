@@ -20,7 +20,7 @@
         glite-ce-service-info: a command line to obtain service's information
 
         Authors: Alvise Dorigo <alvise.dorigo@pd.infn.it>
-        Version info: $Id: glite-ce-service-info.cpp,v 1.1.2.6.2.3.2.3 2012/04/16 17:00:15 adorigo Exp $
+        Version info: $Id: glite-ce-service-info.cpp,v 1.1.2.6.2.3.2.5 2012/09/14 09:10:30 adorigo Exp $
 */
 
 /**
@@ -42,7 +42,6 @@
 #include "glite/ce/cream-client-api-c/CreamProxy_Impl.h"
 #include "glite/ce/cream-client-api-c/ConfigurationManager.h"
 #include "glite/ce/cream-client-api-c/CreamProxyFactory.h"
-//#include "glite/ce/cream-client-api-c/creamApiLogger.h"
 #include "glite/ce/cream-client-api-c/ServiceInfoWrapper.h"
 #include "glite/ce/cream-client-api-c/file_ex.h"
 #include "glite/ce/cream-client-api-c/CEUrl.h"
@@ -87,31 +86,20 @@ void printhelp(void);
 
 int main(int argc, char *argv[]) {
 
-  bool specified_proxyfile = false;
-  bool debug = false;
-  bool nomsg = false;
-  bool redir_out=false;
-//  int option_index;
-//  string proxyfile;
-  string certfile;
-  string endpoint;
-  string logfile;
-//  bool WRITE_LOG_ON_FILE = true;
-  string    user_conf_file = "";
-  //  creamApiLogger* logger_instance = creamApiLogger::instance();
-  //  log4cpp::Category* log_dev = logger_instance->getLogger();
-  
-  // Initialize the logger
-//   log_dev->setPriority( log4cpp::Priority::NOTICE );
-//   logger_instance->setLogfileEnabled( WRITE_LOG_ON_FILE );
-
-  int timeout = 30;
-
-  bool verify_ac_sign = true;
-
-  int verbosity = 0;
+  bool    specified_proxyfile = false;
+  bool    debug = false;
+  bool    nomsg = false;
+  bool    redir_out=false;
+  string  certfile;
+  string  endpoint;
+  string  logfile;
+  string  user_conf_file = "";
+  int     timeout = 30;
+  bool    verify_ac_sign = true;
+  int     verbosity = 0;
   
   po::options_description desc("Usage");
+  try {
   desc.add_options()
   	("help,h", "display this help and exit")
 	(
@@ -154,7 +142,10 @@ int main(int argc, char *argv[]) {
 	 )
 	 ("endpoint", po::value<string>(), "Set the endpoint to ask the submission enable status")
 	;
-
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }
     po::positional_options_description p;
     p.add("endpoint", -1);
     po::variables_map vm;

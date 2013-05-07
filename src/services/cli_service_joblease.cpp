@@ -33,7 +33,7 @@ int cli_service_joblease::execute( ) throw( )
     return 1;
   }
 
-  this->set_logfile( "DELEGATE_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-delegate-proxy" );
+  this->set_logfile( "LEASE_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-job-lease" );
   
   try{
     if( !cliUtils::checkEndpointFormat( m_endpoint ) )
@@ -91,6 +91,10 @@ int cli_service_joblease::execute( ) throw( )
     m_execution_fail_message = ex.what() ;
     return 1;
   } catch(exception& ex) {
+    m_execution_fail_message = ex.what();
+    return 1;
+  } catch( glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    //this->getLogger()->fatal( ex.what( ) );
     m_execution_fail_message = ex.what();
     return 1;
   }
