@@ -206,6 +206,9 @@ namespace es_help_messages {
     + " - <Activity_ID_1> ... <Activity_ID_N> are the identifiers (N must be >= 1)\n"
     + "   to query the status of on the remote service.\n";
 
+  static string getresourceinfo_usage = "";
+  static string queryresourceinfo_usage = "";
+   
   static string wipe_custom_opts = string("") + 
     + " --input|-i\n"
     + "     Specifies an input file containing the list of activity identifiers\n"
@@ -278,6 +281,9 @@ namespace es_help_messages {
     + "       You cannot write identifiers created on endpoint B into a file previously\n"
     + "       filled with identifiers created on endpoint A.\n\n";
 
+  static string getresourceinfo_custom_opts = "";
+  static string queryresourceinfo_custom_opts = "";
+ 
   static string delegate_custom_opts = "";
   static string deleginfo_custom_opts = "";
   static string delegrenew_custom_opts = "";
