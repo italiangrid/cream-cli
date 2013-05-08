@@ -11,7 +11,7 @@
 /**
  * ES CLIENT LIB STUFF
  */
-#include "glite/ce/es-client-api-c/AbstractCall.h"
+//#include "glite/ce/es-client-api-c/AbstractCall.h"
 
 #include "cli_service_common_options.h"
 
@@ -48,10 +48,10 @@ namespace glite {
 //	  bool			m_logging;
 	  
 	  glite::ce::cream_client_api::soap_proxy::AbsCreamProxy*  m_creamClient;
-	  emi_es::client::comm::AbstractCall*                      m_esClient; 
+//	  emi_es::client::comm::AbstractCall*                      m_esClient; 
 	  
 	public:
-	  virtual ~cli_service( ) throw( ) { delete m_confMgr; delete m_creamClient; delete m_esClient; }
+	  virtual ~cli_service( ) throw( ) { delete m_confMgr; delete m_creamClient; /* delete m_esClient; */ }
 	  cli_service( const cli_service_common_options& );
 	  virtual int execute( void ) throw() = 0;
 	  
