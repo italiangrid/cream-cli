@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
   bool verify_ac_sign = true;
   
   po::options_description desc("Usage");
+  try {
   desc.add_options()
     ("help,h", "display this help and exit")
     (
@@ -123,7 +124,10 @@ int main(int argc, char *argv[]) {
      "delegationId,D", po::value<vector<string> >(&all_delegationids_to_renew), ""
      )
     ;
-  
+  } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    cerr << "FATAL: " << ex.what() << endl;
+    return 1;
+  } 
   
   po::positional_options_description p;
   p.add("delegationId", -1);

@@ -44,7 +44,7 @@ int cli_service_service_info::execute( ) throw( ) {
     return 1;
   }
 
-  this->set_logfile( "ALLOWEDSUB_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-allowed-submission" );
+  this->set_logfile( "GETSERVICEINFO_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-service-info" );
   
   try{
     if( !cliUtils::checkEndpointFormat( m_endpoint ) )

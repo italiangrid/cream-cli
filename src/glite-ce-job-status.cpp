@@ -35,7 +35,6 @@ END LICENSE */
 #include "glite/ce/cream-client-api-c/JobInfoWrapper.h"
 #include "glite/ce/cream-client-api-c/JobCommandWrapper.h"
 #include "glite/ce/cream-client-api-c/ConfigurationManager.h"
-//#include "glite/ce/cream-client-api-c/creamApiLogger.h"
 #include "glite/ce/cream-client-api-c/VOMSWrapper.h"
 #include "glite/ce/cream-client-api-c/CEUrl.h"
 #include "glite/ce/cream-client-api-c/certUtil.h"
@@ -350,6 +349,7 @@ int main(int argc, char *argv[]) {
     string states;
 
     po::options_description desc("Usage");
+    try {
     desc.add_options()
         ("help,h", "display this help and exit")
         (
@@ -410,7 +410,11 @@ int main(int argc, char *argv[]) {
 	   "level,L", po::value<string>(&outputLevel), ""
 	 )
         ;
-	
+    } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+      cerr << "FATAL: " << ex.what() << endl;
+      return 1;
+    }	
+
     po::positional_options_description p;
     p.add("jobid", -1);
 

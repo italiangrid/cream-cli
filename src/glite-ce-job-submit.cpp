@@ -133,6 +133,7 @@ int main(int argc, char *argv[]) {
 
   bool verify_ac_sign = true;
   po::options_description desc("Usage");
+  try {
   desc.add_options()
     ("help,h", "display this help and exit")
     (
@@ -199,7 +200,10 @@ int main(int argc, char *argv[]) {
     (
      "jdl-file,J", po::value<vector<string> >(&JDLFiles), "Set the range extremes of events CREAM must return"
      );
-
+  } catch(glite::ce::cream_client_api::soap_proxy::auth_ex& ex ) {
+    cerr << "FATAL: " << ex.what() << endl;
+    return 1;
+  }
   po::positional_options_description p;
   p.add("jdl-file", -1);
 
@@ -217,6 +221,14 @@ int main(int argc, char *argv[]) {
 	 << endl;
     exit( 1 );
   }
+
+  if ( vm.count("help") ) {
+    printhelp();
+    exit(0);
+  }
+
+  if( vm.count("donot-verify-ac-sign") )
+    verify_ac_sign = false;
 
   if( vm.count("nomsg") && vm.count("debug") )
     {
@@ -269,21 +281,22 @@ int main(int argc, char *argv[]) {
   opt.m_endpoint = "";//endpoint;
   opt.m_soap_timeout = timeout;  
   
-  boost::regex pattern_cream, pattern_es;
+  boost::regex pattern_cream;//, pattern_es;
   boost::cmatch what;
   pattern_cream = "^([^:]+)(:[0-9]+)?/cream-[^-]+-.+";
-  pattern_es    = "^([^:]+)(:[0-9]+)?/es";
+//  pattern_es    = "^([^:]+)(:[0-9]+)?/es";
   
-  if( !boost::regex_match(URL.c_str(), what, pattern_cream) &&
-      !boost::regex_match(URL.c_str(), what, pattern_es) )
+  if( !boost::regex_match(URL.c_str(), what, pattern_cream) )// &&
+//      !boost::regex_match(URL.c_str(), what, pattern_es) )
       {
-        cerr << "Specified CEID has wrong format. Must be <host>[:<tcp_port>]/cream-<batch_system_name>-<queue_name> OR <host>[:<tcp_port>]/es" << endl;
+ //       cerr << "Specified CEID has wrong format. Must be <host>[:<tcp_port>]/cream-<batch_system_name>-<queue_name> OR <host>[:<tcp_port>]/es" << endl;
+        cerr << "Specified CEID has wrong format. Must be <host>[:<tcp_port>]/cream-<batch_system_name>-<queue_name>" << endl;
         return 1;
       }
   
-  bool isES = boost::regex_match(URL.c_str(), what, pattern_es);
+//  bool isES = boost::regex_match(URL.c_str(), what, pattern_es);
 
-  if(!isES) {
+//  if(!isES) {
   
   glite::ce::cream_cli::services::cli_service_jobsubmit JS( opt );
 
@@ -322,14 +335,14 @@ int main(int argc, char *argv[]) {
     {
       cout << *it << endl;
     }
-  } else {
+//  } else {
 //    glite::ce::cream_cli::services::cli_service_esjobsubmit ESJS( opt );
 //    ESJS.set_xml_file( JDLFiles.at(0) );
 //    ESJS.set_ceid( URL );
 //    if(ESJS.execute( )) {
 //      cerr << ESJS.get_execution_error_message( ) << endl;
 //    }
-  }
+//  }
   
   return 0;
 
