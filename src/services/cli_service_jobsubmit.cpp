@@ -573,13 +573,13 @@ int cli_service_jobsubmit::execute( void ) throw( )
        
       string delegationProxy = "";
 
-      string lease_id = "";
+//      string lease_id = "";
 
       apiproxy::JobDescriptionWrapper* jd 
 	= new apiproxy::JobDescriptionWrapper((*it)->toString( ), 
 					      m_delegation_id, 
 					      delegationProxy, 
-					      lease_id, 
+					      m_lease_id, 
 					      false, 
 					      (*it)->getJobName() );
       reqs.push_back( jd );
