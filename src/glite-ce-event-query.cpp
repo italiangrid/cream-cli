@@ -169,6 +169,12 @@ int main(int argc, char *argv[]) {
         exit( 1 );
     }
 
+  if ( vm.count("help") ) {
+    printhelp();
+    return 0;
+  }
+
+
   if( vm.count("debug") && vm.count("nomsg") ) {
     cerr << "Cannot specify both --debug and --nomsg options. Stop." << endl;
     return 1;
@@ -190,11 +196,6 @@ int main(int argc, char *argv[]) {
   if( vm.count("donot-verify-ac-sign") )
     verify_ac_sign = false;
     
-  if ( vm.count("help") ) {
-    printhelp();
-    return 0;
-  }
-  
   if ( vm.count("version") ) {
     help_messages::printver();
     return 0;
