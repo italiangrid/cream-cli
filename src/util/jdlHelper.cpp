@@ -238,7 +238,7 @@ void jdlHelper::process(const string& qn, const string& bs,
   if(user_specified_vo!="") {
     if(hasVO()) {
       m_log_dev->warnStream()
-	  << "VirtualOrganisation specified in the JDL but overrided with ["
+	  << "VirtualOrganisation specified in the JDL but overriden with ["
 	  << user_specified_vo << "]" ;
       m_job.delAttribute(string("VirtualOrganisation"));
     }
