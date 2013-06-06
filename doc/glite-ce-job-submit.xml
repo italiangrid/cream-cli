@@ -199,6 +199,14 @@
                 </listitem>
             </varlistentry>
 
+            <varlistentry>
+                <term><option>--leaseId <replaceable class="parameter">lease_identifier</replaceable></option></term>
+                <term><option>-L <replaceable class="parameter">lease_identifier</replaceable></option></term>
+                <listitem>
+                    <para>Specifies a previously created lease ID (see command glite-ce-job-lease) to associate with the job to submit.</para>
+                </listitem>
+            </varlistentry>
+
         </variablelist>
     </refsect1>
 
