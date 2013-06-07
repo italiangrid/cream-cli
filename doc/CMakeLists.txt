@@ -154,7 +154,8 @@ add_custom_target(manpages ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-allo
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-submit.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-suspend.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-proxy-renew.1.gz
-                                       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-service-info.1.gz)
+                                       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-service-info.1.gz
+				       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-lease.1.gz)
 
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/
