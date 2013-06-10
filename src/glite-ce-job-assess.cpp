@@ -380,7 +380,7 @@ int main(int argc, char *argv[]) {
       if(job.hasAttribute("VirtualOrganisation")) {
         if(!nomsg) {
 	  ostringstream os("");
-	  os <<"VirtualOrganisation specified in the JDL but overrided with ["<<VO<<"]";
+	  os <<"VirtualOrganisation specified in the JDL but overriden with ["<<VO<<"]";
 	  logger_instance->log(logger::WARN, os.str().c_str(), true, WRITE_LOG_ON_FILE, true);
 	}
 	job.delAttribute(string("VirtualOrganisation"));
@@ -406,7 +406,7 @@ int main(int argc, char *argv[]) {
 	if(job.hasAttribute("VirtualOrganisation")) {
         if(!nomsg) {
 	  ostringstream os("");
-	  os <<"VirtualOrganisation specified in the JDL but overrided with ["<<user_VO<<"]";
+	  os <<"VirtualOrganisation specified in the JDL but overriden with ["<<user_VO<<"]";
 	  logger_instance->log(logger::WARN, os.str().c_str(), true, WRITE_LOG_ON_FILE, true);
 	}
 	job.delAttribute(string("VirtualOrganisation"));

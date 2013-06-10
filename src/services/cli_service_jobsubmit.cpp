@@ -289,7 +289,7 @@ int cli_service_jobsubmit::execute( void ) throw( )
 	this->getLogger()->warn( string("Specified VO [") 
 				 + m_user_specified_VO 
 				 + "] as command line argument"
-				 + " has been overrided by VO from certificate [" 
+				 + " has been overriden by VO from certificate [" 
 				 + VO_from_cert + "]") ;
 
   } else {

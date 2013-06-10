@@ -33,7 +33,7 @@ int cli_service_joblease::execute( ) throw( )
     return 1;
   }
 
-  this->set_logfile( "DELEGATE_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-delegate-proxy" );
+  this->set_logfile( "LEASE_LOG_DIR", "/tmp/glite_cream_cli_logs", "glite-ce-job-lease" );
   
   try{
     if( !cliUtils::checkEndpointFormat( m_endpoint ) )
