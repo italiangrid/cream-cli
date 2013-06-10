@@ -38,7 +38,7 @@
 
     <refnamediv>
         <refname>&dhcommand;</refname>
-        <refpurpose>Allows the user to create a lease lasting a specified amount of seconds, that can be used later for her job submissions.</refpurpose>
+        <refpurpose>Allows the user to create a lease lasting a specified amount of seconds, that can be used later for her/his job submissions.</refpurpose>
     </refnamediv>
 
     <refsynopsisdiv>
@@ -62,7 +62,7 @@
         <para><command>&dhcommand;</command> glite-ce-job-lease is the command to create a lease, that can be used later in 
 				     	     job submission operations (see option --leaseId of the glite-ce-job-submit command). 
 					     In this way the user can express a duration of interest for the job(s) she/he has submitted. 
-					     When a lease expires, all the jobs associated to it will be aborted by CREAM.
+					     When a lease expires, all the jobs associated to it will be aborted by CREAM.</para>
 
         <para>&dhcommand; requires as mandatory inputs:
             <itemizedlist>
@@ -71,8 +71,8 @@
 		    	  specified using the <option>--endpoint</option> option;</para>
                 </listitem>
                 <listitem>
-                    <para>a string, chosen by the end user, specifying the id of the lease. 
-		          This id will then have to be specified in the following submission operations 
+                    <para>a string, chosen by the end user, specifying the ID of the lease. 
+		          This ID will then have to be specified in the subsequent submission operations 
 			  (with the option <option>--leaseId</option> of the <command>glite-ce-job-submit</command> command).</para>
                 </listitem>
 		<listitem>
@@ -82,7 +82,7 @@
             </itemizedlist>
         </para>
 
-        <para>If a lease with the same id and belonging to the same user already exists in the CREAM CE, it's duration will be just updated.
+        <para>If a lease with the same id and belonging to the same user already exists in the CREAM CE, it's duration will be just updated.</para>
 	<para>The <option>--endpoint</option> directive must be used to target the operation to a specific CREAM CE. 
 					      The format to be used is the following: <![CDATA[<fullhostname>[:<portnumber>]]]></para>
         
@@ -159,9 +159,11 @@
 
     <refsect1>
         <title>EXAMPLES</title>
-        <para><command>glite-ce-job-lease -e ce1.pd.infn.it:8443 -T 3600 myleaseid</command></para>
+        <para><command>&dhcommand; --endpoint cream-27.pd.infn.it --leaseTime 3600 myLID</command></para>
         <para><screen>
-Proxy with delegation id [myproxyid1] succesfully delegated to endpoint [https://ce1.pd.infn.it:8443//ce-cream/services/CREAMDelegation]
+		You requested lease time [3600] for lease ID [myLID]
+		CREAM negotiated the lease time to [3600]
+		Proxy with delegation id [myproxyid1] succesfully delegated to endpoint [https://ce1.pd.infn.it:8443//ce-cream/services/CREAMDelegation]
         </screen></para>
     </refsect1>
 
