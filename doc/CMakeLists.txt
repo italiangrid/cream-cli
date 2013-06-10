@@ -31,6 +31,17 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-allowed-submissio
                                     ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-allowed-submission.xml
                    COMMAND gzip -f ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-allowed-submission.1)
 
+add_custom_command(OUTPUT
+${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-lease.1.gz
+                   DEPENDS
+${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-job-lease.xml
+                   COMMAND xsltproc -o
+${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-lease.1
+                                    ${DB_MANPAGES_STYLESHEET} 
+                                    ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-job-lease.xml
+                   COMMAND gzip -f
+${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-lease.1)
+
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-delegate-proxy.1.gz
                    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/glite-ce-delegate-proxy.xml
                    COMMAND xsltproc -o ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-delegate-proxy.1
@@ -143,7 +154,8 @@ add_custom_target(manpages ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-allo
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-submit.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-suspend.1.gz
                                        ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-proxy-renew.1.gz
-                                       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-service-info.1.gz)
+                                       ${CMAKE_CURRENT_BINARY_DIR}/glite-ce-service-info.1.gz
+					${CMAKE_CURRENT_BINARY_DIR}/glite-ce-job-lease.1.gz)
 
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/

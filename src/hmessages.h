@@ -74,8 +74,8 @@ namespace help_messages {
     string("  --conf, -c <file>	        specifies the configuration file\n\n")+
     string("  --donot-verify-ac-sign, -A   Allows the execution of the command even if the VO voms\n")+
     string("                             server certificate is not installed.\n\n")+
-    string("  --leaseId, -L		   Specify a identifier of a precreated lease to associate\n");
-    string("				 with the job to submit.\n\n");
+    string("  --leaseId, -L		   Specify a identifier of a precreated lease to associate\n")+
+    string("				 with the job to submit.\n\n")+
     commonFile+
     string("If <result_file> already exists AND its first line is '##CREAMJOBS##' the\noutput will be appended to it; otherwise you will be asked to overwrite it or\nexit.\n\n")+
     common+
