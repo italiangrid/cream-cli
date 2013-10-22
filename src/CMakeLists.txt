@@ -62,7 +62,6 @@ pkg_check_modules(GLOBUS_FTP_CLIENT globus-ftp-client)
 pkg_check_modules(GLOBUS_FTP_CONTROL globus-ftp-control)
 pkg_check_modules(LOG4CPP log4cpp)
 pkg_check_modules(VOMS voms-2.0)
-pkg_check_modules(GRIDSITE_OPENSSL emi-gridsite-openssl)
 pkg_check_modules(CLASSAD emi-classad-ns)
 
 if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
