@@ -572,7 +572,8 @@ bool checkdir( const string& localdir, const string& lcd_localdir, creamApiLogge
       if( !localdir_exists ) {
 	if(localdir != "." ) {
 	  try {
-	    boost::filesystem::create_directory( localdir );
+	    fs::path createP( localdir, fs::native );
+	    fs::create_directory( createP );
 	  } catch(exception& ex) {
 	    logger_instance->log(log4cpp::Priority::FATAL, 
 				 string("Failed creation of directory [") 
@@ -614,12 +615,13 @@ bool checkdir( const string& localdir, const string& lcd_localdir, creamApiLogge
 	} else answer = 'y';
 
 	if(answer == 'y') {
-	  boost::filesystem::remove_all( boost::filesystem::path( lcd_localdir ) );
+	  fs::remove_all( fs::path( lcd_localdir, fs::native ) );
 	} else return false; // FIXME: COSA FARE se si risponde di no ?!?!?
       }  
       
       try {
-	boost::filesystem::create_directory( lcd_localdir );
+        fs::path lcdP (lcd_localdir, fs::native);
+	fs::create_directory( lcdP );
       } catch(exception& ex) {
 	logger_instance->log(log4cpp::Priority::FATAL, 
 			     string("Failed creation of directory [") 
