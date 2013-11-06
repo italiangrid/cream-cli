@@ -43,11 +43,14 @@ END LICENSE */
 #include "services/cli_service_jobstatus.h"
 #include "hmessages.h"
 
-#include "boost/algorithm/string.hpp"
-#include "boost/regex.hpp"
-#include "boost/tuple/tuple.hpp"
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <boost/program_options.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/time_parsers.hpp>
+//#include <boost/date_time/posix_time/ptime.hpp>
 
 using namespace std;
 using namespace glite::ce::cream_client_api;
@@ -485,29 +488,45 @@ int main(int argc, char *argv[]) {
     cerr << "--all option requires to specify also --endpoint option. Stop." << endl;
     return 1;
   }
-
+  tzset();
   if( !fromDate.empty( ) ) {
       pattern = "^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})\\s([0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\b";
       if( !boost::regex_match(fromDate.c_str(), what, pattern) ) {
         cerr << "Specified from date is wrong; must have the format 'YYYY-MM-DD HH:mm:ss'. Stop" << endl;
         return 1;
       }
-      struct tm tmp;
+/*      struct tm tmp;
       strptime(fromDate.c_str(), "%Y-%m-%d %T", &tmp);
-      SINCE_timestamp = mktime(&tmp);
+      SINCE_timestamp = mktime(&tmp); */
+    boost::posix_time::ptime since( boost::posix_time::time_from_string(fromDate) );
+    boost::posix_time::ptime epoch(boost::gregorian::date(1970,1,1));
+    boost::posix_time::time_duration dur = since - epoch;
+    SINCE_timestamp = dur.total_seconds() +timezone;
+    //cout << "SINCE   = " << fromDate << endl;
+    //cout << "TSTAMP  = " << SINCE_timestamp  << endl;
+    //cout << "asctime = " << asctime((const struct tm*)(localtime((const time_t*)&tstamp))) << endl;
   }
     
-
+  //cout << "toDate = " << toDate << endl;
 
   if( !toDate.empty( ) ) {
+
       pattern = "^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})\\s([0-9][0-9]:[0-9][0-9]:[0-9][0-9])\\b";
       if( !boost::regex_match(toDate.c_str(), what, pattern) ) {
 	cerr << "Specified to date is wrong; must have the format 'YYYY-MM-DD HH:mm:ss'. Stop" << endl;
 	return(1);
       }
-      struct tm tmp;
+/*      struct tm tmp;
       strptime(toDate.c_str(), "%Y-%m-%d %T", &tmp);
       TO_timestamp = mktime(&tmp);
+*/
+    boost::posix_time::ptime to( boost::posix_time::time_from_string(toDate) );
+    boost::posix_time::ptime epoch(boost::gregorian::date(1970,1,1));
+    boost::posix_time::time_duration dur = to - epoch;
+    TO_timestamp = dur.total_seconds() + timezone;
+    //cout << "TO      = " << toDate << endl;
+    //cout << "TSTAMP  = " << TO_timestamp  << endl;
+    //cout << "asctime = " << asctime((const struct tm*)(localtime((const time_t*)&tstamp))) << endl;
   }
 
 
