@@ -61,7 +61,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Mar 21 2012 CREAM group <cream-support@lists.infn.it> - @PKGVERSION@-@PKGRELEASE@
+* Fri Mar 21 2014 CREAM group <cream-support@lists.infn.it> - @PKGVERSION@-@PKGRELEASE@
 - Fix for bug https://issues.infn.it/jira/browse/CREAM-128
 - Fix for bug https://issues.infn.it/jira/browse/CREAM-129
 
