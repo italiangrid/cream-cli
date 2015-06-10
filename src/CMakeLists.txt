@@ -36,14 +36,12 @@ endif( ${CMAKE_VERSION} VERSION_LESS "2.8.2" )
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GSOAP gsoapssl++)
 pkg_check_modules(GSOAP_PLUGIN glite-security-gsoap-plugin++)
-pkg_check_modules(GLITE_JOBID emi-jobid)
 pkg_check_modules(GLITE_CREAM_SOAP cream-client-api-soap)
 pkg_check_modules(GLITE_CREAM_UTIL cream-client-api-util)
 pkg_check_modules(ARES libcares)
 pkg_check_modules(GLITE_JDL jdl-api-cpp)
 pkg_check_modules(GLITE_WMSUTILS_EXCEPTION jobman-exception)
 pkg_check_modules(GLITE_WMSUTILS_CLASSADS classad-utils)
-pkg_check_modules(GRIDSITE_OPENSSL gridsite-openssl)
 pkg_check_modules(GLOBUS_COMMON globus-common)
 pkg_check_modules(GLOBUS_CORE globus-core)
 pkg_check_modules(GLOBUS_CALLOUT globus-callout)
@@ -62,7 +60,6 @@ pkg_check_modules(GLOBUS_FTP_CLIENT globus-ftp-client)
 pkg_check_modules(GLOBUS_FTP_CONTROL globus-ftp-control)
 pkg_check_modules(LOG4CPP log4cpp)
 pkg_check_modules(VOMS voms-2.0)
-pkg_check_modules(CLASSAD emi-classad-ns)
 
 if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
     set(BOOST_LIBRARYDIR "/usr/lib64")
@@ -71,14 +68,22 @@ endif( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
 set(Boost_USE_MULTITHREADED ON)
 find_package( Boost COMPONENTS date_time filesystem regex thread program_options)
 
+if( NOT Boost_VERSION VERSION_LESS "1.48.0" )
+    add_definitions( -DNEWBOOSTFS )
+endif( NOT Boost_VERSION VERSION_LESS "1.48.0" )
+
+find_package(GLiteClassAd REQUIRED)
+find_package(GLiteJobid REQUIRED)
+find_package(GLiteGridsite REQUIRED)
+
 # workaround for deb7
 #add_definitions( -D_GLIBCXX__PTHREADS )
 
-add_definitions( -pipe -DWANT_NAMESPACES -DWANT_CLASSAD_NAMESPACE )
+add_definitions( -pipe ${ClassAd_CXX_FLAGS} ${ClassAd_CPP_FLAGS} )
 
 set(COMMON_LIBS ${GSOAP_LIBRARIES}
                 ${GSOAP_PLUGIN_LIBRARIES}
-                ${GLITE_JOBID_LIBRARIES}
+                ${GLite_JOBID_LIBRARIES}
                 ${GLITE_CREAM_SOAP_LIBRARIES}
                 ${GLITE_CREAM_UTIL_LIBRARIES}
                 ${GLITE_CREAM_ES_LIBRARIES}
@@ -88,19 +93,20 @@ set(COMMON_LIBS ${GSOAP_LIBRARIES}
                 ${GLITE_WMSUTILS_CLASSADS_LIBRARIES}
                 ${GLOBUS_FTP_CLIENT_LIBRARIES}
                 ${GLOBUS_FTP_CONTROL_LIBRARIES}
-                ${CLASSAD_LIBRARIES}
+                ${ClassAd_LIBRARY}
                 ${VOMS_LIBRARIES}
                 ${LOG4CPP_LIBRARIES}
-                ${GRIDSITE_OPENSSL_LIBRARIES}
+                ${GRIDSITE_LIBRARIES}
                 ${Boost_LIBRARIES})
 
-include_directories(${CLASSAD_INCLUDE_DIRS}
+include_directories(${ClassAd_INCLUDE_DIR}
                     ${VOMS_INCLUDE_DIRS}
                     ${GLITE_CREAM_SOAP_INCLUDE_DIRS}
                     ${GLITE_CREAM_UTIL_INCLUDE_DIRS}
                     ${GSOAP_INCLUDE_DIRS}
                     ${LOG4CPP_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS}
+                    ${GLOBUS_FTP_CLIENT_INCLUDE_DIRS}
                     ${GLOBUS_CORE_INCLUDE_DIRS})
 
 link_directories(${CMAKE_BINARY_DIR}/util
@@ -108,7 +114,6 @@ link_directories(${CMAKE_BINARY_DIR}/util
                  ${CMAKE_BINARY_DIR}/ftpclient
                  ${GSOAP_LIBRARY_DIRS}
                  ${GSOAP_PLUGIN_LIBRARY_DIRS}
-                 ${GLITE_JOBID_LIBRARY_DIRS}
                  ${GLITE_CREAM_SOAP_LIBRARY_DIRS}
                  ${GLITE_CREAM_UTIL_LIBRARY_DIRS}
                  ${GLITE_CREAM_ES_LIBRARY_DIRS}
@@ -118,10 +123,9 @@ link_directories(${CMAKE_BINARY_DIR}/util
                  ${GLITE_WMSUTILS_CLASSADS_LIBRARY_DIRS}
                  ${GLOBUS_FTP_CLIENT_LIBRARY_DIRS}
                  ${GLOBUS_FTP_CONTROL_LIBRARY_DIRS}
-                 ${CLASSAD_LIBRARY_DIRS}
+                 ${ClassAd_LIBRARY_DIR}
                  ${VOMS_LIBRARY_DIRS}
-                 ${LOG4CPP_LIBRARY_DIRS}
-                 ${GRIDSITE_OPENSSL_LIBRARY_DIRS})
+                 ${LOG4CPP_LIBRARY_DIRS})
 
 add_executable(glite-ce-allowed-submission glite-ce-allowed-submission.cpp)
 target_link_libraries(glite-ce-allowed-submission ${COMMON_LIBS}

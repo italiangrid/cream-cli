@@ -17,7 +17,7 @@
 #  limitations under the License.
 #  
 
-include_directories(${CLASSAD_INCLUDE_DIRS}
+include_directories(${ClassAd_INCLUDE_DIR}
                     ${VOMS_INCLUDE_DIRS}
                     ${GLITE_CREAM_SOAP_INCLUDE_DIRS}
                     ${GLITE_CREAM_UTIL_INCLUDE_DIRS}
@@ -27,8 +27,6 @@ include_directories(${CLASSAD_INCLUDE_DIRS}
                     ${Boost_INCLUDE_DIRS}
                     ${GLOBUS_CORE_INCLUDE_DIRS}
                     ${PROJECT_SOURCE_DIR}/src)
-
-add_definitions( -pipe -DWANT_NAMESPACES -DWANT_CLASSAD_NAMESPACE )
 
 add_library(glite_ce_cream_cli_services SHARED 
                      cli_service_allowed_submission.cpp

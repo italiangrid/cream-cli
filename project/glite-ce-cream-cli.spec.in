@@ -8,9 +8,9 @@ URL: http://glite.cern.ch/
 Group: Applications/Internet
 BuildArch: %{_arch}
 Requires: uberftp
-BuildRequires: cmake, chrpath, emi-pkgconfig-compat
+BuildRequires: cmake, chrpath
 BuildRequires: glite-ce-cream-client-devel, glite-jdl-api-cpp-devel
-BuildRequires: globus-common-devel, globus-callout-devel, globus-openssl-devel
+BuildRequires: globus-common-devel, globus-callout-devel
 BuildRequires: globus-openssl-module-devel, globus-gsi-callback-devel, globus-gsi-cert-utils-devel
 BuildRequires: globus-gsi-credential-devel, globus-gsi-openssl-error-devel, globus-gsi-proxy-core-devel
 BuildRequires: globus-gsi-proxy-ssl-devel, globus-gsi-sysconfig-devel,globus-gssapi-error-devel

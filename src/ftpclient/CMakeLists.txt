@@ -17,7 +17,7 @@
 #  limitations under the License.
 #  
 
-include_directories(${CLASSAD_INCLUDE_DIRS}
+include_directories(${ClassAd_INCLUDE_DIR}
                     ${VOMS_INCLUDE_DIRS}
                     ${GSOAP_INCLUDE_DIRS}
                     ${LOG4CPP_INCLUDE_DIRS}
