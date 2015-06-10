@@ -572,7 +572,11 @@ bool checkdir( const string& localdir, const string& lcd_localdir, creamApiLogge
       if( !localdir_exists ) {
 	if(localdir != "." ) {
 	  try {
+#ifdef NEWBOOSTFS
+	    fs::path createP( localdir );
+#else
 	    fs::path createP( localdir, fs::native );
+#endif
 	    fs::create_directory( createP );
 	  } catch(exception& ex) {
 	    logger_instance->log(log4cpp::Priority::FATAL, 
@@ -615,12 +619,20 @@ bool checkdir( const string& localdir, const string& lcd_localdir, creamApiLogge
 	} else answer = 'y';
 
 	if(answer == 'y') {
+#ifdef NEWBOOSTFS
+	  fs::remove_all( fs::path( lcd_localdir ) );
+#else
 	  fs::remove_all( fs::path( lcd_localdir, fs::native ) );
+#endif
 	} else return false; // FIXME: COSA FARE se si risponde di no ?!?!?
       }  
       
       try {
+#ifdef NEWBOOSTFS
+        fs::path lcdP (lcd_localdir);
+#else
         fs::path lcdP (lcd_localdir, fs::native);
+#endif
 	fs::create_directory( lcdP );
       } catch(exception& ex) {
 	logger_instance->log(log4cpp::Priority::FATAL, 
