@@ -66,11 +66,11 @@ if( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
 endif( NOT DEFINED BOOST_LIBRARYDIR AND IS_DIRECTORY "/usr/lib64" )
 
 set(Boost_USE_MULTITHREADED ON)
+set(Boost_NO_BOOST_CMAKE ON)
 find_package( Boost COMPONENTS date_time filesystem regex thread program_options)
-
-if( NOT Boost_VERSION VERSION_LESS "1.48.0" )
+if( NOT Boost_VERSION LESS "104800" )
     add_definitions( -DNEWBOOSTFS )
-endif( NOT Boost_VERSION VERSION_LESS "1.48.0" )
+endif( NOT Boost_VERSION LESS "104800" )
 
 find_package(GLiteClassAd REQUIRED)
 find_package(GLiteJobid REQUIRED)
