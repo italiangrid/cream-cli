@@ -369,8 +369,6 @@ int main(int argc, char *argv[]) {
     url_jobids[tmp].push_back( *jit );
   }
   
-  AbsCreamProxy::InfoArrayResult Iresult;
-  
   map<string, string> OSB_to_get;
 
   cout << endl;
@@ -381,6 +379,8 @@ int main(int argc, char *argv[]) {
       it != url_jobids.end();
       it++) // iterates over endpoints
     {
+      AbsCreamProxy::InfoArrayResult Iresult;
+
       vector<JobIdWrapper> target;
       stripCreamURL strip( &target, &confMgr );
       for_each(it->second.begin(), it->second.end(), strip);
