@@ -182,15 +182,22 @@ void cliUtils::removeJobIDFromFile(const vector<string>& toRemove,
 int cliUtils::openJobListFile(const char* filename, const bool& trunc)
   throw(file_ex&)
 {
-  int fd, flag = O_RDWR|O_LARGEFILE;
-  if(trunc) flag |= O_TRUNC;
-  else flag |= O_CREAT;
-  fd = open(filename, flag);
-  if(fd==-1) throw file_ex(strerror(errno));
+  int fd, flag = O_RDWR | O_LARGEFILE;
+  if(trunc)
+  {
+    fd = open(filename, flag | O_TRUNC);
+  }
+  else
+  {
+    fd = open(filename, flag | O_CREAT, S_IRUSR|S_IWUSR);
+  }
+  if(fd == -1) throw file_ex(strerror(errno));
 
-  if(-1==write(fd, (const void*)CREAMJOBFILETAG, strlen(CREAMJOBFILETAG)))
+  if(-1 == write(fd, (const void*)CREAMJOBFILETAG, strlen(CREAMJOBFILETAG)))
+  {
     throw file_ex(strerror(errno));
-  if(-1 == fchmod(fd, S_IRUSR|S_IWUSR)) {
+  }
+  if( trunc && -1 == fchmod(fd, S_IRUSR|S_IWUSR)) {
     close(fd);
     throw file_ex(strerror(errno));
   }
